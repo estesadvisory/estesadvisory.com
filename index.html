@@ -1,171 +1,331 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Estes Advisory | Strategic Growth, Advisory & Partnerships</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <style>
-        body { font-family: 'Inter', system-ui, -apple-system, sans-serif; }
-        .nav-link { transition: color 0.2s ease; }
-        .nav-link:hover { color: #0F172A; }
-    </style>
-</head>
-<body class="bg-white text-slate-800">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Estes Advisory | Architecture, Cloud & AI Advisory</title>
+    <meta
+      name="description"
+      content="Estes Advisory helps leaders make clear, confident decisions about cloud architecture, AI execution, data strategy, and strategic partnerships."
+    />
+    <meta name="theme-color" content="#f4f7fb" />
+    <link rel="icon" href="assets/logo.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="assets/styles.css" />
+  </head>
+  <body class="bp-bg">
+    <header class="site-nav">
+      <div class="container nav-inner">
+        <a class="brand" href="#top" aria-label="Estes Advisory home">
+          <img class="brand-mark" src="assets/logo.svg" alt="" width="40" height="40" />
+          <span class="brand-text">
+            <span class="brand-name">Estes Advisory</span>
+            <span class="brand-sub">LLC · Architecture</span>
+          </span>
+        </a>
 
-    <!-- Navigation -->
-    <nav class="bg-white border-b border-slate-200 sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-6">
-            <div class="flex justify-between items-center h-20">
-                <!-- Logo -->
-                <div class="flex items-center gap-x-3">
-                    <img src="assets/ea-logo.png" alt="Estes Advisory" class="h-11 w-11 object-contain">
-                    <span class="font-semibold text-2xl tracking-tight">Estes Advisory</span>
-                </div>
+        <nav class="nav-links" aria-label="Primary">
+          <a href="#about">About</a>
+          <a href="#services">Services</a>
+          <a href="#how-we-work">How We Work</a>
+          <a href="#partners">Partners</a>
+          <a href="#contact">Contact</a>
+        </nav>
 
-                <!-- Desktop Navigation -->
-                <div class="hidden md:flex items-center gap-x-9 text-sm font-medium">
-                    <a href="#about" class="nav-link text-slate-600 hover:text-slate-900">About</a>
-                    <a href="#services" class="nav-link text-slate-600 hover:text-slate-900">Services</a>
-                    <a href="#how-we-work" class="nav-link text-slate-600 hover:text-slate-900">How We Work</a>
-                    <a href="#partners" class="nav-link text-slate-600 hover:text-slate-900">Partners</a>
-                    <a href="#contact" class="nav-link text-slate-600 hover:text-slate-900">Contact</a>
-                </div>
+        <a class="btn btn-primary nav-cta" href="#contact">Start a conversation</a>
 
-                <div class="hidden md:block">
-                    <a href="#contact" class="px-6 py-2.5 bg-slate-900 hover:bg-slate-800 text-white text-sm font-medium rounded-2xl transition-colors">
-                        Start a Conversation
-                    </a>
-                </div>
+        <button
+          class="menu-toggle"
+          id="menu-toggle"
+          type="button"
+          aria-expanded="false"
+          aria-controls="mobile-menu"
+          aria-label="Open menu"
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true">
+            <path d="M4 7h16M4 12h16M4 17h16" stroke-linecap="square" />
+          </svg>
+        </button>
+      </div>
 
-                <button id="mobile-menu-button" class="md:hidden w-11 h-11 flex items-center justify-center text-slate-600 hover:text-slate-900">
-                    <i class="fa-solid fa-bars text-xl"></i>
-                </button>
-            </div>
+      <div class="mobile-menu" id="mobile-menu">
+        <div class="container mobile-menu-inner">
+          <a href="#about">About</a>
+          <a href="#services">Services</a>
+          <a href="#how-we-work">How We Work</a>
+          <a href="#partners">Partners</a>
+          <a href="#contact">Contact</a>
+          <a class="btn btn-primary btn-block" href="#contact">Start a conversation</a>
         </div>
+      </div>
+    </header>
 
-        <!-- Mobile Menu -->
-        <div id="mobile-menu" class="hidden md:hidden border-t border-slate-100 bg-white">
-            <div class="px-6 py-6 flex flex-col gap-y-4 text-sm font-medium">
-                <a href="#about" class="py-1 text-slate-600">About</a>
-                <a href="#services" class="py-1 text-slate-600">Services</a>
-                <a href="#how-we-work" class="py-1 text-slate-600">How We Work</a>
-                <a href="#partners" class="py-1 text-slate-600">Partners</a>
-                <a href="#contact" class="py-1 text-slate-600">Contact</a>
-                <div class="pt-4 border-t border-slate-100">
-                    <a href="#contact" class="block w-full text-center px-5 py-3 bg-slate-900 text-white rounded-2xl text-sm font-medium">Start a Conversation</a>
-                </div>
+    <main id="top">
+      <section class="hero">
+        <div class="container">
+          <div class="sheet hero-frame">
+            <div class="hero-meta">
+              <div class="eyebrow">
+                <span class="dot" aria-hidden="true"></span>
+                Cloud · AI · Partnerships
+              </div>
+              <div class="coord">DWG · EA-001 · REV A</div>
             </div>
-        </div>
-    </nav>
 
-    <!-- Hero Section -->
-    <section class="max-w-5xl mx-auto px-6 pt-20 pb-24 text-center">
-        <div class="max-w-3xl mx-auto">
-            <div class="inline-flex items-center gap-x-2 px-4 py-1.5 rounded-3xl bg-slate-100 text-sm font-medium mb-6">
-                <div class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
-                <span>Strategic Growth • Advisory • Partnerships</span>
-            </div>
-            
-            <h1 class="text-6xl md:text-6xl font-semibold tracking-tighter leading-none mb-6">
-                Clarity.<br>
-                Confidence.<br>
-                <span class="text-slate-500">Execution.</span>
+            <h1>
+              Clarity.<br />
+              Confidence.<br />
+              <span class="muted">Execution.</span>
             </h1>
-            
-            <p class="text-xl text-slate-600 max-w-2xl mx-auto mb-10">
-                We help business leaders cut through complexity and make confident decisions about technology, growth, and partnerships.
+
+            <p class="lede">
+              We help business and technical leaders cut through complexity and make
+              confident decisions about architecture, growth, and partnerships —
+              then stay involved until the path is clear.
             </p>
 
-            <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                <a href="#contact" class="px-8 py-4 bg-slate-900 hover:bg-slate-800 text-white font-medium rounded-3xl transition-colors">Start a Conversation</a>
-                <a href="#services" class="px-8 py-4 border border-slate-300 hover:bg-slate-50 font-medium rounded-3xl transition-colors">Explore How We Work</a>
+            <div class="hero-actions">
+              <a class="btn btn-primary" href="#contact">Book a working session</a>
+              <a class="btn btn-ghost" href="#services">Explore services</a>
             </div>
-        </div>
-    </section>
 
-    <!-- About Section -->
-    <section id="about" class="max-w-5xl mx-auto px-6 py-16 border-t border-slate-100">
-        <div class="grid md:grid-cols-12 gap-x-12 items-center">
-            <div class="md:col-span-5 mb-10 md:mb-0">
-                <h2 class="text-4xl font-semibold tracking-tight mb-4">We help leaders move with clarity.</h2>
-                <p class="text-lg text-slate-600">Estes Advisory exists to help founders, executives, and technical leaders make better decisions about technology, partnerships, and growth.</p>
+            <div class="hero-stats" aria-label="Focus areas">
+              <div class="stat">
+                <span class="stat-label">Discipline</span>
+                <span class="stat-value">Enterprise architecture</span>
+              </div>
+              <div class="stat">
+                <span class="stat-label">Practice</span>
+                <span class="stat-value">Cloud, data & AI</span>
+              </div>
+              <div class="stat">
+                <span class="stat-label">Base</span>
+                <span class="stat-value">Flower Mound, Texas</span>
+              </div>
             </div>
-            <div class="md:col-span-7 text-slate-600 leading-relaxed">
-                <p class="mb-4">We combine deep technical understanding with pragmatic business judgment. Our work spans cloud architecture, data strategy, AI implementation, and strategic partnerships.</p>
-                <p>We don’t just advise — we help you execute. Whether you’re scaling infrastructure, building new capabilities, or forming key partnerships, we stay involved until the outcome is clear.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="about">
+        <div class="container">
+          <div class="split">
+            <div class="section-head">
+              <div class="section-kicker">01 · About</div>
+              <h2>We help leaders move with clarity.</h2>
             </div>
-        </div>
-    </section>
-
-    <!-- Services Section -->
-    <section id="services" class="max-w-5xl mx-auto px-6 py-16 border-t border-slate-100">
-        <div class="mb-10">
-            <h2 class="text-4xl font-semibold tracking-tight">What We Do</h2>
-            <p class="text-lg text-slate-600 mt-2">Practical support for complex decisions.</p>
-        </div>
-
-        <div class="grid md:grid-cols-3 gap-6">
-            <div class="border border-slate-200 rounded-3xl p-8 hover:border-slate-300 transition-colors">
-                <div class="w-12 h-12 bg-slate-100 rounded-2xl flex items-center justify-center mb-6"><i class="fa-solid fa-cloud text-2xl text-slate-700"></i></div>
-                <h3 class="font-semibold text-xl mb-3">Cloud & Infrastructure Strategy</h3>
-                <p class="text-slate-600">Architecture decisions, modernization roadmaps, and execution support for scalable, secure systems.</p>
+            <div class="split-copy">
+              <p>
+                Estes Advisory exists to help founders, executives, and technical
+                leaders make better decisions about technology, partnerships, and growth.
+              </p>
+              <p>
+                We combine deep technical understanding with pragmatic business judgment.
+                Our work spans cloud architecture, data strategy, AI implementation, and
+                strategic partnership design — always with an architect’s eye for systems
+                that actually hold under load.
+              </p>
+              <p>
+                We don’t just advise. We help you execute. Whether you’re scaling
+                infrastructure, building new capabilities, or forming key partnerships,
+                we stay involved until the outcome is clear.
+              </p>
             </div>
-            <div class="border border-slate-200 rounded-3xl p-8 hover:border-slate-300 transition-colors">
-                <div class="w-12 h-12 bg-slate-100 rounded-2xl flex items-center justify-center mb-6"><i class="fa-solid fa-handshake text-2xl text-slate-700"></i></div>
-                <h3 class="font-semibold text-xl mb-3">Strategic Partnerships</h3>
-                <p class="text-slate-600">Identifying, evaluating, and structuring partnerships that accelerate growth and capability building.</p>
+          </div>
+        </div>
+      </section>
+
+      <hr class="rule container" />
+
+      <section class="section" id="services">
+        <div class="container">
+          <div class="section-head">
+            <div class="section-kicker">02 · Services</div>
+            <h2>What we do</h2>
+            <p class="lede">Practical support for complex architecture and growth decisions.</p>
+          </div>
+
+          <div class="card-grid">
+            <article class="card">
+              <div class="card-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+                  <path d="M4 18h16M6 18V9l6-4 6 4v9M9 18v-4h6v4" stroke-linejoin="round" />
+                </svg>
+              </div>
+              <h3>Cloud & infrastructure strategy</h3>
+              <p>
+                Architecture decisions, modernization roadmaps, and execution support
+                for scalable, secure systems across AWS and multi-cloud estates.
+              </p>
+            </article>
+
+            <article class="card">
+              <div class="card-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+                  <path d="M8 12h8M12 8v8M7 4h10a3 3 0 0 1 3 3v10a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3V7a3 3 0 0 1 3-3z" />
+                </svg>
+              </div>
+              <h3>AI & data execution</h3>
+              <p>
+                Moving from prototypes to production systems with governance,
+                semantic foundations, delivery discipline, and human-in-the-loop design.
+              </p>
+            </article>
+
+            <article class="card">
+              <div class="card-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+                  <path d="M8 14a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm8 0a4 4 0 1 1 0-8 4 4 0 0 1 0 8zM4 20c0-2.5 2-4.5 4.5-4.5h1M14.5 15.5c2.5 0 4.5 2 4.5 4.5" stroke-linecap="round" />
+                </svg>
+              </div>
+              <h3>Strategic partnerships</h3>
+              <p>
+                Identifying, evaluating, and structuring partnerships that accelerate
+                capability building — from delivery teams to platform alliances.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="how-we-work" style="padding-top: 0">
+        <div class="container">
+          <div class="section-head">
+            <div class="section-kicker">03 · Method</div>
+            <h2>How we work</h2>
+            <p class="lede">Clarity over complexity. Partnership over transactions.</p>
+          </div>
+
+          <div class="process">
+            <div class="process-item">
+              <div class="process-num">01</div>
+              <div>
+                <h3>Understand deeply first</h3>
+                <p>
+                  We invest time upfront to understand your business, constraints,
+                  and goals before recommending anything.
+                </p>
+              </div>
             </div>
-            <div class="border border-slate-200 rounded-3xl p-8 hover:border-slate-300 transition-colors">
-                <div class="w-12 h-12 bg-slate-100 rounded-2xl flex items-center justify-center mb-6"><i class="fa-solid fa-robot text-2xl text-slate-700"></i></div>
-                <h3 class="font-semibold text-xl mb-3">AI & Data Execution</h3>
-                <p class="text-slate-600">Moving from AI prototypes to production systems with proper governance, architecture, and delivery.</p>
+            <div class="process-item">
+              <div class="process-num">02</div>
+              <div>
+                <h3>Co-create the path forward</h3>
+                <p>
+                  We work alongside your team to build realistic plans that balance
+                  ambition with execution reality.
+                </p>
+              </div>
             </div>
-        </div>
-    </section>
-
-    <!-- How We Work -->
-    <section id="how-we-work" class="max-w-5xl mx-auto px-6 py-16 border-t border-slate-100 bg-slate-50 -mx-6 px-6">
-        <div class="max-w-3xl">
-            <h2 class="text-4xl font-semibold tracking-tight mb-4">How We Work</h2>
-            <p class="text-lg text-slate-600 mb-8">We believe in clarity over complexity and partnership over transactions.</p>
-            <div class="space-y-8">
-                <div class="flex gap-6"><div class="font-mono text-sm w-8 text-slate-400 pt-1">01</div><div><div class="font-semibold">Understand deeply first</div><div class="text-slate-600">We invest time upfront to understand your business, constraints, and goals before recommending anything.</div></div></div>
-                <div class="flex gap-6"><div class="font-mono text-sm w-8 text-slate-400 pt-1">02</div><div><div class="font-semibold">Co-create the path forward</div><div class="text-slate-600">We work alongside your team to build realistic plans that balance ambition with execution reality.</div></div></div>
-                <div class="flex gap-6"><div class="font-mono text-sm w-8 text-slate-400 pt-1">03</div><div><div class="font-semibold">Stay until it’s clear</div><div class="text-slate-600">We remain engaged through implementation and decision points — not just strategy on a slide.</div></div></div>
+            <div class="process-item">
+              <div class="process-num">03</div>
+              <div>
+                <h3>Stay until it’s clear</h3>
+                <p>
+                  We remain engaged through implementation and decision points —
+                  not just strategy on a slide.
+                </p>
+              </div>
             </div>
+          </div>
         </div>
-    </section>
+      </section>
 
-    <!-- Partners Section -->
-    <section id="partners" class="max-w-5xl mx-auto px-6 py-16 border-t border-slate-100">
-        <div class="mb-10">
-            <h2 class="text-4xl font-semibold tracking-tight">Our Partners</h2>
-            <p class="text-lg text-slate-600 mt-2">We work closely with exceptional teams to deliver outcomes.</p>
+      <hr class="rule container" />
+
+      <section class="section" id="partners">
+        <div class="container">
+          <div class="section-head">
+            <div class="section-kicker">04 · Partners</div>
+            <h2>Who we build with</h2>
+            <p class="lede">We work closely with exceptional teams to deliver outcomes.</p>
+          </div>
+
+          <div class="partner-grid">
+            <article class="partner">
+              <h3>DevNest</h3>
+              <p>
+                High-quality custom software development and engineering with deep
+                expertise in cloud and data platforms.
+              </p>
+            </article>
+            <article class="partner">
+              <h3>Kloudgen</h3>
+              <p>
+                Cloud strategy and implementation partner focused on helping
+                organizations modernize and scale infrastructure.
+              </p>
+            </article>
+            <article class="partner">
+              <h3>Clarifeye</h3>
+              <p>
+                AI and data intelligence solutions that help organizations turn
+                complex information into clear, actionable insight.
+              </p>
+            </article>
+          </div>
         </div>
-        <div class="grid md:grid-cols-3 gap-6">
-            <div class="border border-slate-200 rounded-3xl p-8"><div class="font-semibold text-xl mb-2">DevNest</div><p class="text-slate-600 text-sm">High-quality custom software development and engineering services with deep expertise in cloud and data platforms.</p></div>
-            <div class="border border-slate-200 rounded-3xl p-8"><div class="font-semibold text-xl mb-2">Kloudgen</div><p class="text-slate-600 text-sm">Cloud strategy and implementation partner focused on helping organizations modernize and scale their infrastructure.</p></div>
-            <div class="border border-slate-200 rounded-3xl p-8"><div class="font-semibold text-xl mb-2">Clarifeye</div><p class="text-slate-600 text-sm">AI and data intelligence solutions that help organizations turn complex information into clear, actionable insight.</p></div>
+      </section>
+
+      <section class="section" id="contact">
+        <div class="container">
+          <div class="sheet contact-panel">
+            <div class="section-kicker" style="justify-content: center; display: flex">
+              05 · Contact
+            </div>
+            <h2>Let’s talk about what you’re building.</h2>
+            <p class="lede">
+              Whether you’re navigating a complex architecture decision, scaling
+              infrastructure, or forming strategic partnerships — we’re ready to help.
+            </p>
+            <div class="contact-actions">
+              <!-- Replace CAL_COM_URL with your real Cal.com event link when ready -->
+              <a
+                class="btn btn-primary"
+                id="cal-link"
+                href="https://cal.com"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Schedule with Cal.com
+              </a>
+              <a class="btn btn-ghost" href="mailto:mike@estesadvisory.com">Email Mike</a>
+            </div>
+            <div class="contact-meta">
+              mike@estesadvisory.com · Flower Mound, Texas
+            </div>
+          </div>
         </div>
-    </section>
+      </section>
+    </main>
 
-    <!-- Contact Section -->
-    <section id="contact" class="max-w-3xl mx-auto px-6 py-20 text-center border-t border-slate-100">
-        <h2 class="text-4xl font-semibold tracking-tight mb-4">Let’s talk about what you’re building.</h2>
-        <p class="text-xl text-slate-600 mb-10 max-w-md mx-auto">Whether you’re navigating a complex decision, scaling infrastructure, or forming strategic partnerships — we’re ready to help.</p>
-        <a href="mailto:mike@estesadvisory.com" class="inline-flex items-center justify-center px-8 py-4 bg-slate-900 hover:bg-slate-800 text-white font-medium rounded-3xl transition-colors">Start a Conversation</a>
-        <div class="mt-8 text-sm text-slate-500">mike@estesadvisory.com &nbsp;•&nbsp; Flower Mound, Texas</div>
-    </section>
-
-    <footer class="border-t border-slate-100 py-8 text-center text-sm text-slate-500">© Estes Advisory LLC. All rights reserved.</footer>
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <div>© <span id="year"></span> Estes Advisory LLC. All rights reserved.</div>
+        <div class="footer-links">
+          <a href="#services">Services</a>
+          <a href="#how-we-work">Method</a>
+          <a href="#contact">Contact</a>
+        </div>
+      </div>
+    </footer>
 
     <script>
-        const mobileBtn = document.getElementById('mobile-menu-button');
-        const mobileMenu = document.getElementById('mobile-menu');
-        mobileBtn.addEventListener('click', () => { mobileMenu.classList.toggle('hidden'); });
-        document.querySelectorAll('#mobile-menu a').forEach(link => { link.addEventListener('click', () => { mobileMenu.classList.add('hidden'); }); });
+      document.getElementById("year").textContent = String(new Date().getFullYear());
+      // Set your Cal.com username/event slug here, e.g. "yourname/30min"
+      window.ESTES_CAL_LINK = "";
+      (function () {
+        var link = document.getElementById("cal-link");
+        if (window.ESTES_CAL_LINK) {
+          link.href = "https://cal.com/" + window.ESTES_CAL_LINK.replace(/^\/+/, "");
+        }
+      })();
     </script>
-</body>
+    <script src="assets/main.js"></script>
+  </body>
 </html>

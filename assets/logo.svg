@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" role="img" aria-label="Estes Advisory">
+  <rect x="1" y="1" width="46" height="46" rx="3" stroke="#2E6DA4" stroke-width="1"/>
+  <path d="M8 8H40M8 40H40M8 8V40M40 8V40" stroke="#B7C9DB" stroke-width="0.75"/>
+  <path d="M8 24H40M24 8V40" stroke="#D7E2EE" stroke-width="0.75"/>
+  <path d="M14 32V16H28" stroke="#1F4F7A" stroke-width="2" stroke-linecap="square"/>
+  <path d="M14 24H25" stroke="#2E6DA4" stroke-width="2" stroke-linecap="square"/>
+  <circle cx="38" cy="10" r="1.25" fill="#2E6DA4"/>
+  <circle cx="10" cy="38" r="1.25" fill="#2E6DA4"/>
+</svg>
