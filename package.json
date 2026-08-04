@@ -1,0 +1,13 @@
+{
+  "name": "estesadvisory-com",
+  "private": true,
+  "version": "2.0.0",
+  "description": "Official static website for Estes Advisory LLC — blueprint design, S3-ready",
+  "type": "module",
+  "scripts": {
+    "dev": "npx --yes serve . -l tcp://0.0.0.0:8080 --no-port-switching --no-clipboard",
+    "build": "echo 'Static site at repo root — sync this directory (or dist copy) to S3'",
+    "preview": "npx --yes serve . -l tcp://0.0.0.0:8080 --no-port-switching --no-clipboard",
+    "start": "npm run dev"
+  }
+}
