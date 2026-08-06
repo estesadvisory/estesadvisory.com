@@ -290,19 +290,28 @@ button:disabled {
 }
 
 .brand-mark {
-  width: 2.25rem;
-  height: 2.25rem;
+  width: auto;
+  height: 2.5rem;
   flex-shrink: 0;
   border: 1px solid var(--blue-line-mid);
   background: var(--paper-elevated);
   display: grid;
   place-items: center;
   position: relative;
+  padding: 0.15rem 0.35rem;
+  box-sizing: content-box;
 }
 
 .brand-mark svg {
   width: 1.35rem;
   height: 1.35rem;
+}
+
+.brand-mark img {
+  display: block;
+  height: 2.35rem;
+  width: auto;
+  object-fit: contain;
 }
 
 .brand-text {

@@ -17,6 +17,9 @@
     />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://estesadvisory.com/" />
+    <meta property="og:image" content="/assets/logo-ea.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png" />
+    <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png" />
     <link rel="stylesheet" href="/css/styles.css" />
   </head>
   <body class="blueprint-grid-fine">
@@ -26,14 +29,7 @@
       <div class="wrap inner">
         <a class="brand" href="/">
           <span class="brand-mark" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect x="3.5" y="3.5" width="17" height="17" stroke="#2a6a94" stroke-width="1.25" />
-              <path d="M8 16V8h3.2c1.6 0 2.6.9 2.6 2.2 0 1-.5 1.7-1.4 2l1.8 3.8h-1.7l-1.6-3.5H9.5V16H8zm1.5-4.8h1.5c.7 0 1.15-.35 1.15-.95S11.7 9.3 11 9.3H9.5v1.9z" fill="#0b1220" />
-              <line x1="3" y1="12" x2="5" y2="12" stroke="#3d7ea6" stroke-width="1" />
-              <line x1="19" y1="12" x2="21" y2="12" stroke="#3d7ea6" stroke-width="1" />
-              <line x1="12" y1="3" x2="12" y2="5" stroke="#3d7ea6" stroke-width="1" />
-              <line x1="12" y1="19" x2="12" y2="21" stroke="#3d7ea6" stroke-width="1" />
-            </svg>
+            <img src="/assets/logo-ea-header.png" alt="" width="74" height="60" decoding="async" />
           </span>
           <span class="brand-text">
             <span class="brand-name">Estes Advisory</span>
@@ -46,11 +42,11 @@
           <a href="#services">Services</a>
           <a href="#approach">Approach</a>
           <a href="#partners">Partners</a>
-          <a href="#book">Book</a>
+          <a href="#contact">Contact</a>
         </nav>
 
         <div class="nav-actions">
-          <a class="btn btn-primary" href="#book">Book a call</a>
+          <a class="btn btn-primary" href="mailto:mike@estesadvisory.com">Email Mike</a>
         </div>
 
         <button
@@ -74,9 +70,8 @@
         <a href="#services">Services</a>
         <a href="#approach">Approach</a>
         <a href="#partners">Partners</a>
-        <a href="#book">Book</a>
         <a href="#contact">Contact</a>
-        <a class="btn btn-primary mobile-cta" href="#book">Book a call</a>
+        <a class="btn btn-primary mobile-cta" href="mailto:mike@estesadvisory.com">Email Mike</a>
       </div>
     </div>
 
@@ -109,7 +104,7 @@
             </p>
 
             <div class="hero-actions">
-              <a class="btn btn-primary btn-lg" href="#book">Book an intro call</a>
+              <a class="btn btn-primary btn-lg" href="mailto:mike@estesadvisory.com">Email Mike</a>
               <a class="btn btn-secondary btn-lg" href="#services">View services</a>
             </div>
 
@@ -401,51 +396,6 @@
         </div>
       </section>
 
-      <hr class="section-rule" />
-
-      <!-- Book / Cal.com -->
-      <section class="section" id="book">
-        <div class="wrap">
-          <div class="book-layout">
-            <div class="book-copy">
-              <span class="label">05 · Schedule</span>
-              <h2 class="heading" style="margin-top: 0.75rem">Book a conversation</h2>
-              <p class="body-muted">
-                Pick a time for an intro call. No pitch theater — just a clear discussion of what
-                you’re building, where you’re stuck, and whether we’re the right fit.
-              </p>
-              <ul class="book-points">
-                <li>
-                  <span class="mark">//</span>
-                  <span>30-minute intro — goals, constraints, next steps</span>
-                </li>
-                <li>
-                  <span class="mark">//</span>
-                  <span>Calendar powered by Cal.com (timezone-aware)</span>
-                </li>
-                <li>
-                  <span class="mark">//</span>
-                  <span>Prefer email? <a href="mailto:mike@estesadvisory.com">mike@estesadvisory.com</a></span>
-                </li>
-              </ul>
-              <div style="margin-top: 1.5rem; display: flex; flex-wrap: wrap; gap: 0.65rem">
-                <a class="btn btn-pop" href="https://cal.com/estesadvisory/intro" target="_blank" rel="noopener noreferrer">
-                  Open Cal.com
-                </a>
-                <a class="btn btn-secondary" href="mailto:mike@estesadvisory.com">Email Mike</a>
-              </div>
-              <p class="label label-muted" style="margin-top: 1.25rem">
-                Tip: set your Cal.com username/event in <span class="mono">js/main.js</span> before S3 deploy
-              </p>
-            </div>
-
-            <div class="cal-shell">
-              <span class="draw-label">Cal.com · Embed</span>
-              <div id="cal-inline"></div>
-            </div>
-          </div>
-        </div>
-      </section>
 
       <hr class="section-rule" />
 
@@ -453,7 +403,7 @@
       <section class="section-sm" id="contact">
         <div class="wrap">
           <div class="section-head">
-            <span class="label">06 · Contact</span>
+            <span class="label">05 · Contact</span>
             <h2 class="heading">Let’s talk about what you’re building</h2>
           </div>
 
@@ -481,7 +431,7 @@
               </p>
             </div>
             <div class="cta-actions">
-              <a class="btn btn-primary btn-lg btn-block" href="#book">Book an intro call</a>
+              <a class="btn btn-primary btn-lg btn-block" href="mailto:mike@estesadvisory.com">Email Mike</a>
               <a
                 class="btn btn-secondary btn-lg btn-block"
                 href="https://www.linkedin.com/company/estes-advisory/"
@@ -512,7 +462,8 @@
               <li><a href="#about">About</a></li>
               <li><a href="#services">Services</a></li>
               <li><a href="#approach">Approach</a></li>
-              <li><a href="#book">Book</a></li>
+              <li><a href="#partners">Partners</a></li>
+              <li><a href="#contact">Contact</a></li>
             </ul>
           </div>
           <div class="footer-col">
