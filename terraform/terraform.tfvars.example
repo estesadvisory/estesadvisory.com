@@ -1,0 +1,9 @@
+# Copy to terraform.tfvars if you need overrides (gitignored).
+# Defaults already match production Estes Advisory.
+
+# aws_region      = "us-east-1"
+# domain_name     = "estesadvisory.com"
+# hosted_zone_id  = "Z0628734KB79OZ2T16SR"
+# bucket_name     = "estesadvisory.com"
+# enable_www      = true
+# price_class     = "PriceClass_100"
