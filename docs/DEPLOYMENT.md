@@ -92,6 +92,18 @@ cd terraform && terraform output
 - `cloudfront_distribution_id` — invalidations  
 - `site_bucket_name` — S3 sync target  
 
+## Destroy / empty origin bucket
+
+Site objects and versions are **not** managed by Terraform (`make sync` owns content). The bucket has versioning on and **no** `force_destroy`.
+
+Before `terraform destroy` (or if destroy fails on a non-empty bucket):
+
+1. Empty current objects: `aws s3 rm s3://$(make -s status | sed -n 's/^BUCKET=//p') --recursive` (or use the bucket name from `make status`)
+2. Delete all object versions and delete markers (Console → bucket → Management → empty, or scripted `list-object-versions` + delete)
+3. Then `cd terraform && terraform destroy`
+
+Lifecycle: noncurrent versions expire after **30 days**; incomplete multipart uploads abort after **7 days** (#24).
+
 ## Notes
 
 - **www** currently serves the same content as apex (canonical 301 is [#5](https://github.com/estesadvisory/estesadvisory.com/issues/5)).

@@ -1,3 +1,6 @@
+# Site origin objects are managed by `make sync`, not Terraform.
+# Versioning is on for rollback; lifecycle below expires noncurrent versions.
+# Do not set force_destroy lightly — destroy requires emptying current + versioned objects first.
 resource "aws_s3_bucket" "site" {
   bucket = var.bucket_name
 }
@@ -16,6 +19,29 @@ resource "aws_s3_bucket_versioning" "site" {
 
   versioning_configuration {
     status = "Enabled"
+  }
+}
+
+resource "aws_s3_bucket_lifecycle_configuration" "site" {
+  bucket = aws_s3_bucket.site.id
+
+  depends_on = [aws_s3_bucket_versioning.site]
+
+  rule {
+    id     = "expire-noncurrent-and-abort-multipart"
+    status = "Enabled"
+
+    filter {
+      prefix = ""
+    }
+
+    noncurrent_version_expiration {
+      noncurrent_days = 30
+    }
+
+    abort_incomplete_multipart_upload {
+      days_after_initiation = 7
+    }
   }
 }
 
