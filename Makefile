@@ -109,7 +109,7 @@ smoke: ## Quick HTTPS smoke checks
 	echo "GET $$url"; \
 	curl -sS -o /dev/null -w "  apex  %{http_code}  ssl_verify=%{ssl_verify_result}\n" "$$url" || true; \
 	curl -sS -o /dev/null -w "  http→ %{http_code}  loc=%{redirect_url}\n" --max-redirs 0 "http://estesadvisory.com/" || true; \
-	curl -sS -o /dev/null -w "  www   %{http_code}\n" "https://www.estesadvisory.com/" || true; \
+	curl -sS -o /dev/null -w "  www→  %{http_code}  loc=%{redirect_url}\n" --max-redirs 0 "https://www.estesadvisory.com/" || true; \
 	curl -sS -o /dev/null -w "  book  %{http_code}\n" "https://estesadvisory.com/book.html" || true; \
 	curl -sS -o /dev/null -w "  css   %{http_code}\n" "https://estesadvisory.com/css/styles.css" || true
 

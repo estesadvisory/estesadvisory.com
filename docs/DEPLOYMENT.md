@@ -56,7 +56,7 @@ Before first apply (or if apply fails on record conflicts):
 2. Remove or **import** any existing apex/www **A / AAAA / CNAME** that is not managed by this state (Route53 rejects conflicting duplicates).
 3. Confirm **MX → Google** (and any mail-related TXT) remain after apply.
 4. Optional: lower TTL on old records ahead of cutover if they already exist.
-5. **www** currently serves the same content as apex until [#5](https://github.com/estesadvisory/estesadvisory.com/issues/5) (canonical redirect).
+5. **Canonical host is apex** (`https://estesadvisory.com`). `www` still has DNS A/AAAA → CloudFront; a CloudFront Function returns **301** to apex (path + query preserved).
 
 ### Terraform state (local v1)
 
@@ -136,9 +136,14 @@ Lifecycle: noncurrent versions expire after **30 days**; incomplete multipart up
 
 CloudFront response headers send `Strict-Transport-Security` with `max-age=31536000` on the site host only. **v1 does not** set `includeSubDomains` or `preload` ([#18](https://github.com/estesadvisory/estesadvisory.com/issues/18)). Revisit before adding non-HTTPS subdomains or submitting to the browser preload list.
 
+## Canonical host
+
+- **Primary:** `https://estesadvisory.com` (apex)
+- **www:** DNS still points at the same distribution; CloudFront Function `www-to-apex` issues **301** to the apex URL with the same path and query string
+- Sitemap and `<link rel="canonical">` use the apex host only
+
 ## Notes
 
-- **www** currently serves the same content as apex (canonical 301 is [#5](https://github.com/estesadvisory/estesadvisory.com/issues/5)).
 - Do not commit `*.tfstate` or `terraform.tfvars` with secrets (none required for v1).
 ### CloudFront access logs
 
