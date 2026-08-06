@@ -64,8 +64,12 @@ SITE_SYNC_EXCLUDES := \
 	--include "robots.txt" \
 	--include "sitemap.xml"
 
+.PHONY: stamp
+stamp: ## Stamp footer build id (git SHA + UTC) into index.html
+	@bash scripts/stamp-build.sh
+
 .PHONY: sync
-sync: ## Sync allowlisted static files to S3 origin (no invalidate)
+sync: stamp ## Stamp build id, then sync allowlisted files to S3
 	@test -n "$(BUCKET)" || (echo "BUCKET empty — run make tf-apply first"; exit 1)
 	# Allowlist + --delete: only known site paths land in the bucket; other keys are removed.
 	# Cache: short TTL without immutable for unfingerprinted paths (#23).

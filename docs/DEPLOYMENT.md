@@ -147,9 +147,22 @@ Not uploaded: `terraform/`, `Makefile`, `README.md`, `docs/`, `.git/`, `.github/
 3. Commit / PR as usual  
 4. `make deploy` from a machine with AWS SSO  
 
+### Build identity (footer)
+
+Public footer (right of copyright) is stamped at **deploy time**, not hand-edited:
+
+```text
+rev <7-char-sha> · built <YYYY-MM-DDTHH:MM:SSZ>
+```
+
+- Script: `scripts/stamp-build.sh` (markers `<!--BUILD_ID-->…<!--/BUILD_ID-->` in `index.html`)
+- Local: `make stamp` or automatically via `make sync` / `make deploy`
+- CI: **Deploy site** workflow runs stamp before S3 sync
+- Repo source keeps `rev pending · built pending` until the next stamp; stamped values are not committed back from Actions
+
 ### GitHub Actions content deploy (OIDC)
 
-**Flow:** open PR → **merge to `main`** → Actions syncs allowlisted static files to S3 and invalidates CloudFront.  
+**Flow:** open PR → **merge to `main`** → Actions stamps build id, syncs allowlisted static files to S3, invalidates CloudFront.  
 Not: deploy on every open PR. **Not:** Terraform apply (infra stays `make tf-plan` / `tf-apply` on a machine with SSO).
 
 Workflow: `.github/workflows/deploy-site.yml`  
