@@ -58,8 +58,10 @@ sync: ## Sync static files to S3 origin (no invalidate)
 	  --exclude ".DS_Store" \
 	  --exclude "*.tfvars" \
 	  --exclude "*.tfvars.example" \
-	  --cache-control "public,max-age=31536000,immutable"
-	# Short cache for HTML + crawl files so iterative deploys show up quickly.
+	  --cache-control "public,max-age=300,must-revalidate"
+	# HTML + crawl files: short TTL so iterative deploys show up quickly.
+	# Unfingerprinted CSS/JS/assets: short TTL without immutable (see #23).
+	# Long-lived immutable cache is only safe once filenames are content-hashed.
 	aws s3 cp s3://$(BUCKET)/ s3://$(BUCKET)/ --recursive \
 	  --exclude "*" \
 	  --include "*.html" \
@@ -74,14 +76,13 @@ sync: ## Sync static files to S3 origin (no invalidate)
 	  --metadata-directive REPLACE \
 	  --cache-control "public,max-age=300,must-revalidate" \
 	  --content-type "application/xml; charset=utf-8"
-	# CSS / JS with correct types + long cache (cp --recursive above only touches html)
 	aws s3 cp s3://$(BUCKET)/css/ s3://$(BUCKET)/css/ --recursive \
 	  --metadata-directive REPLACE \
-	  --cache-control "public,max-age=31536000,immutable" \
+	  --cache-control "public,max-age=300,must-revalidate" \
 	  --content-type "text/css; charset=utf-8" 2>/dev/null || true
 	aws s3 cp s3://$(BUCKET)/js/ s3://$(BUCKET)/js/ --recursive \
 	  --metadata-directive REPLACE \
-	  --cache-control "public,max-age=31536000,immutable" \
+	  --cache-control "public,max-age=300,must-revalidate" \
 	  --content-type "application/javascript; charset=utf-8" 2>/dev/null || true
 	@echo "Synced to s3://$(BUCKET)/"
 
