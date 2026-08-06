@@ -57,11 +57,19 @@ make smoke
 
 ### What gets uploaded
 
-Included: `index.html`, `book.html`, `404.html`, `css/`, `js/`, `assets/`, `robots.txt`, `sitemap.xml`.
+**Source of truth:** the `SITE_SYNC_EXCLUDES` allowlist in the root `Makefile` (`make sync`).
 
-Excluded: `.git/`, `terraform/`, `Makefile`, `README.md`, `docs/`.
+Allowlisted paths only (everything else is ignored and removed from the bucket via `--delete`):
 
-Cache: long-lived for assets; ~5 minutes for HTML.
+- `*.html` (e.g. `index.html`, `book.html`, `404.html`)
+- `css/*`, `js/*`, `assets/*`
+- `robots.txt`, `sitemap.xml`
+
+Not uploaded: `terraform/`, `Makefile`, `README.md`, `docs/`, `.git/`, `.github/`, env/secret files, etc.
+
+`BUCKET` must come from `terraform output` / `make status` — never point `make deploy` at a non-site bucket.
+
+**Cache-Control (unfingerprinted paths):** `public,max-age=300,must-revalidate` for HTML, CSS, JS, and assets (no `immutable`). Pair with CloudFront invalidation on deploy. Long-lived immutable cache is only safe once filenames are content-hashed (see #23).
 
 ## Day-2 loop
 

@@ -43,25 +43,27 @@ tf-apply: ## terraform apply (uses tfplan if present)
 tf-output: ## Show terraform outputs
 	cd $(TF_DIR) && terraform output
 
+# Site content allowlist only — never sync repo/tooling paths into the origin bucket (#20).
+# BUCKET must come from terraform output (make status); do not override to a non-site bucket.
+SITE_SYNC_EXCLUDES := \
+	--exclude "*" \
+	--include "*.html" \
+	--include "css/*" \
+	--include "js/*" \
+	--include "assets/*" \
+	--include "robots.txt" \
+	--include "sitemap.xml"
+
 .PHONY: sync
-sync: ## Sync static files to S3 origin (no invalidate)
+sync: ## Sync allowlisted static files to S3 origin (no invalidate)
 	@test -n "$(BUCKET)" || (echo "BUCKET empty — run make tf-apply first"; exit 1)
-	# Single sync with --delete so excludes only drop non-site paths (never excludes HTML).
+	# Allowlist + --delete: only known site paths land in the bucket; other keys are removed.
+	# Cache: short TTL without immutable for unfingerprinted paths (#23).
 	aws s3 sync $(SITE_ROOT)/ s3://$(BUCKET)/ \
 	  --delete \
-	  --exclude ".git/*" \
-	  --exclude ".gitignore" \
-	  --exclude "terraform/*" \
-	  --exclude "Makefile" \
-	  --exclude "README.md" \
-	  --exclude "docs/*" \
-	  --exclude ".DS_Store" \
-	  --exclude "*.tfvars" \
-	  --exclude "*.tfvars.example" \
+	  $(SITE_SYNC_EXCLUDES) \
 	  --cache-control "public,max-age=300,must-revalidate"
-	# HTML + crawl files: short TTL so iterative deploys show up quickly.
-	# Unfingerprinted CSS/JS/assets: short TTL without immutable (see #23).
-	# Long-lived immutable cache is only safe once filenames are content-hashed.
+	# Ensure correct Content-Type on key paths (sync may mis-detect some types).
 	aws s3 cp s3://$(BUCKET)/ s3://$(BUCKET)/ --recursive \
 	  --exclude "*" \
 	  --include "*.html" \
@@ -88,7 +90,7 @@ sync: ## Sync static files to S3 origin (no invalidate)
 	    --cache-control "public,max-age=300,must-revalidate" \
 	    --content-type "application/javascript; charset=utf-8"; \
 	fi
-	@echo "Synced to s3://$(BUCKET)/"
+	@echo "Synced allowlisted paths to s3://$(BUCKET)/"
 
 .PHONY: invalidate
 invalidate: ## CloudFront invalidation for /*
