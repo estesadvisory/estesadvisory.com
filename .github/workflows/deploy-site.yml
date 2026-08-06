@@ -1,0 +1,91 @@
+# Content-only deploy on push to main (#11).
+# Infra (Terraform) is applied out-of-band; this job only syncs static files + invalidates CDN.
+name: Deploy site
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "**.html"
+      - "css/**"
+      - "js/**"
+      - "assets/**"
+      - "robots.txt"
+      - "sitemap.xml"
+      - ".github/workflows/deploy-site.yml"
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+  contents: read
+
+env:
+  AWS_REGION: us-east-1
+  # Set after first Terraform apply of github_oidc.tf (or override as repository variable).
+  # ROLE_ARN from: terraform output -raw gha_site_deploy_role_arn
+  SITE_BUCKET: estesadvisory.com
+  CLOUDFRONT_DISTRIBUTION_ID: ER3NN8S5BKILJ
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials (OIDC)
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ vars.AWS_GHA_DEPLOY_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Sync allowlisted site files to S3
+        run: |
+          set -euo pipefail
+          aws s3 sync ./ "s3://${SITE_BUCKET}/" \
+            --delete \
+            --exclude "*" \
+            --include "*.html" \
+            --include "css/*" \
+            --include "js/*" \
+            --include "assets/*" \
+            --include "robots.txt" \
+            --include "sitemap.xml" \
+            --cache-control "public,max-age=300,must-revalidate"
+
+          aws s3 cp "s3://${SITE_BUCKET}/" "s3://${SITE_BUCKET}/" --recursive \
+            --exclude "*" \
+            --include "*.html" \
+            --metadata-directive REPLACE \
+            --cache-control "public,max-age=300,must-revalidate" \
+            --content-type "text/html; charset=utf-8"
+
+          aws s3 cp "s3://${SITE_BUCKET}/robots.txt" "s3://${SITE_BUCKET}/robots.txt" \
+            --metadata-directive REPLACE \
+            --cache-control "public,max-age=300,must-revalidate" \
+            --content-type "text/plain; charset=utf-8"
+
+          aws s3 cp "s3://${SITE_BUCKET}/sitemap.xml" "s3://${SITE_BUCKET}/sitemap.xml" \
+            --metadata-directive REPLACE \
+            --cache-control "public,max-age=300,must-revalidate" \
+            --content-type "application/xml; charset=utf-8"
+
+          if [ -d css ]; then
+            aws s3 cp "s3://${SITE_BUCKET}/css/" "s3://${SITE_BUCKET}/css/" --recursive \
+              --metadata-directive REPLACE \
+              --cache-control "public,max-age=300,must-revalidate" \
+              --content-type "text/css; charset=utf-8"
+          fi
+          if [ -d js ]; then
+            aws s3 cp "s3://${SITE_BUCKET}/js/" "s3://${SITE_BUCKET}/js/" --recursive \
+              --metadata-directive REPLACE \
+              --cache-control "public,max-age=300,must-revalidate" \
+              --content-type "application/javascript; charset=utf-8"
+          fi
+
+      - name: Invalidate CloudFront
+        run: |
+          aws cloudfront create-invalidation \
+            --distribution-id "${CLOUDFRONT_DISTRIBUTION_ID}" \
+            --paths "/*"

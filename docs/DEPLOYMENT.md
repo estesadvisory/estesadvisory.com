@@ -127,7 +127,18 @@ Not uploaded: `terraform/`, `Makefile`, `README.md`, `docs/`, `.git/`, `.github/
 3. Commit / PR as usual  
 4. `make deploy` from a machine with AWS SSO  
 
-Optional later: GitHub Actions OIDC deploy ([#11](https://github.com/estesadvisory/estesadvisory.com/issues/11)).
+### GitHub Actions content deploy (OIDC)
+
+Workflow: `.github/workflows/deploy-site.yml` (push to `main` on content paths, or manual `workflow_dispatch`).
+
+1. Apply Terraform so OIDC provider + role exist: `make tf-plan && make tf-apply`
+2. Copy role ARN: `cd terraform && terraform output -raw gha_site_deploy_role_arn`
+3. In GitHub repo **Settings → Secrets and variables → Actions → Variables**:  
+   - `AWS_GHA_DEPLOY_ROLE_ARN` = that ARN
+4. Create Environment **production** (Settings → Environments) if missing — workflow jobs use it
+5. Merge content to `main` or run the workflow manually
+
+Role trust is limited to `estesadvisory/estesadvisory.com` (`main` ref or `production` environment). Permissions: site bucket object R/W + CloudFront invalidation only (no Terraform apply).
 
 ## Outputs
 

@@ -37,3 +37,8 @@ output "cf_logs_bucket_name" {
   description = "S3 bucket receiving CloudFront standard access logs."
   value       = aws_s3_bucket.cf_logs.id
 }
+
+output "gha_site_deploy_role_arn" {
+  description = "IAM role ARN for GitHub Actions OIDC content deploys."
+  value       = aws_iam_role.gha_site_deploy.arn
+}
