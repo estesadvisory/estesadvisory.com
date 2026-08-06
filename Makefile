@@ -76,14 +76,18 @@ sync: ## Sync static files to S3 origin (no invalidate)
 	  --metadata-directive REPLACE \
 	  --cache-control "public,max-age=300,must-revalidate" \
 	  --content-type "application/xml; charset=utf-8"
-	aws s3 cp s3://$(BUCKET)/css/ s3://$(BUCKET)/css/ --recursive \
-	  --metadata-directive REPLACE \
-	  --cache-control "public,max-age=300,must-revalidate" \
-	  --content-type "text/css; charset=utf-8" 2>/dev/null || true
-	aws s3 cp s3://$(BUCKET)/js/ s3://$(BUCKET)/js/ --recursive \
-	  --metadata-directive REPLACE \
-	  --cache-control "public,max-age=300,must-revalidate" \
-	  --content-type "application/javascript; charset=utf-8" 2>/dev/null || true
+	@if [ -d "$(SITE_ROOT)/css" ]; then \
+	  aws s3 cp s3://$(BUCKET)/css/ s3://$(BUCKET)/css/ --recursive \
+	    --metadata-directive REPLACE \
+	    --cache-control "public,max-age=300,must-revalidate" \
+	    --content-type "text/css; charset=utf-8"; \
+	fi
+	@if [ -d "$(SITE_ROOT)/js" ]; then \
+	  aws s3 cp s3://$(BUCKET)/js/ s3://$(BUCKET)/js/ --recursive \
+	    --metadata-directive REPLACE \
+	    --cache-control "public,max-age=300,must-revalidate" \
+	    --content-type "application/javascript; charset=utf-8"; \
+	fi
 	@echo "Synced to s3://$(BUCKET)/"
 
 .PHONY: invalidate
