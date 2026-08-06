@@ -58,14 +58,35 @@ Before first apply (or if apply fails on record conflicts):
 4. Optional: lower TTL on old records ahead of cutover if they already exist.
 5. **Canonical host is apex** (`https://estesadvisory.com`). `www` still has DNS A/AAAA → CloudFront; a CloudFront Function returns **301** to apex (path + query preserved).
 
-### Terraform state (local v1)
+### Terraform state (remote S3 + DynamoDB)
 
-State lives under `terraform/terraform.tfstate` (gitignored). Solo-operator only for now:
+Site stack state is remote ([#12](https://github.com/estesadvisory/estesadvisory.com/issues/12)):
 
-- **Backup** `terraform.tfstate` (and `.backup`) after the first successful apply (e.g. encrypted personal backup — never commit to git).
-- **One writer** — do not apply from a second laptop/CI without remote state + lock ([#12](https://github.com/estesadvisory/estesadvisory.com/issues/12)).
-- Providers pin `allowed_account_ids` to `990207457148` so a wrong SSO account cannot apply.
-- Prioritize remote state ([#12](https://github.com/estesadvisory/estesadvisory.com/issues/12)) before multi-operator or GitHub Actions deploy ([#11](https://github.com/estesadvisory/estesadvisory.com/issues/11)).
+| Resource | Name |
+|----------|------|
+| S3 state bucket | `estesadvisory-com-tfstate` (versioned, encrypted, private) |
+| DynamoDB lock | `estesadvisory-com-tf-lock` |
+| State key | `estesadvisory.com/terraform.tfstate` |
+
+**First-time / migration (already done for prod):**
+
+```bash
+# 1) Bootstrap backend resources (local state in bootstrap/ only)
+cd terraform/bootstrap
+terraform init && terraform apply
+
+# 2) Migrate site stack state from local → S3
+cd ..
+# backup local state first
+cp terraform.tfstate "terraform.tfstate.bak.$(date +%Y%m%d)"
+terraform init -migrate-state   # answer yes to copy existing state to S3
+terraform plan                  # expect no unexpected changes
+```
+
+- Never commit `*.tfstate` (bootstrap or site).
+- Providers pin `allowed_account_ids` to `990207457148`.
+- Locking allows safer multi-writer / CI apply ([#11](https://github.com/estesadvisory/estesadvisory.com/issues/11)).
+- Bootstrap state stays local under `terraform/bootstrap/` (tiny surface; backup after apply).
 
 ## Content deploy (iterative)
 

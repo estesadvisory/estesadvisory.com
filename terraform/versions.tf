@@ -8,5 +8,12 @@ terraform {
     }
   }
 
-  # Local state for v1 (see GitHub #12 for remote state).
+  # Remote state + DynamoDB lock (#12). Bootstrap bucket/table once via terraform/bootstrap/.
+  backend "s3" {
+    bucket         = "estesadvisory-com-tfstate"
+    key            = "estesadvisory.com/terraform.tfstate"
+    region         = "us-east-1"
+    dynamodb_table = "estesadvisory-com-tf-lock"
+    encrypt        = true
+  }
 }
