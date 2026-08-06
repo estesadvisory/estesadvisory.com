@@ -4,6 +4,12 @@ variable "aws_region" {
   default     = "us-east-1"
 }
 
+variable "aws_account_id" {
+  description = "AWS account ID allowed for Terraform applies (guards wrong SSO account)."
+  type        = string
+  default     = "990207457148"
+}
+
 variable "environment" {
   description = "Environment name used for tagging."
   type        = string
