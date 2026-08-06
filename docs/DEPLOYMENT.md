@@ -58,15 +58,38 @@ Before first apply (or if apply fails on record conflicts):
 4. Optional: lower TTL on old records ahead of cutover if they already exist.
 5. **Canonical host is apex** (`https://estesadvisory.com`). `www` still has DNS A/AAAA → CloudFront; a CloudFront Function returns **301** to apex (path + query preserved).
 
-### Terraform state (remote S3 + DynamoDB)
+### Terraform state (where it lives)
 
-Site stack state is remote ([#12](https://github.com/estesadvisory/estesadvisory.com/issues/12)):
+Two stacks, two storage locations ([#12](https://github.com/estesadvisory/estesadvisory.com/issues/12), [#29](https://github.com/estesadvisory/estesadvisory.com/issues/29)):
 
-| Resource | Name |
-|----------|------|
-| S3 state bucket | `estesadvisory-com-tfstate` (versioned, encrypted, private) |
-| DynamoDB lock | `estesadvisory-com-tf-lock` |
-| State key | `estesadvisory.com/terraform.tfstate` |
+| Stack | Path | State storage | Notes |
+|--------|------|----------------|--------|
+| **Site** (CDN, S3 site, DNS, OIDC role, …) | `terraform/` | **Remote S3** | Source of truth |
+| **Bootstrap** (creates state bucket + lock table) | `terraform/bootstrap/` | **Local file** | Chicken-and-egg; backup the laptop copy |
+
+**Site stack remote details:**
+
+| Item | Value |
+|------|--------|
+| Bucket | `estesadvisory-com-tfstate` (private, versioned, SSE-S3) |
+| Key | `estesadvisory.com/terraform.tfstate` |
+| Full URI | `s3://estesadvisory-com-tfstate/estesadvisory.com/terraform.tfstate` |
+| Region | `us-east-1` |
+| Lock | DynamoDB table `estesadvisory-com-tf-lock` |
+| Account | `990207457148` |
+| Config | `terraform/versions.tf` → `backend "s3" { ... }` |
+
+```bash
+# Confirm remote object exists
+aws s3 ls s3://estesadvisory-com-tfstate/estesadvisory.com/
+
+# Site stack always uses remote backend after init
+cd terraform && terraform init && terraform plan
+```
+
+After a successful migrate, a local `terraform/terraform.tfstate` may remain as an empty stub — **do not treat it as source of truth**. Prefer deleting local site `*.tfstate` once you have confirmed S3 has the object (keep any `*.bak*` offline backup if you want).
+
+**Bootstrap** state stays at `terraform/bootstrap/terraform.tfstate` on the machine that ran bootstrap apply. Do not commit it. If that file is lost, re-import or recreate the bucket/table carefully (they may already exist).
 
 **First-time / migration (already done for prod):**
 
@@ -77,16 +100,13 @@ terraform init && terraform apply
 
 # 2) Migrate site stack state from local → S3
 cd ..
-# backup local state first
 cp terraform.tfstate "terraform.tfstate.bak.$(date +%Y%m%d)"
-terraform init -migrate-state   # answer yes to copy existing state to S3
+terraform init -migrate-state   # or: terraform init -migrate-state -force-copy
 terraform plan                  # expect no unexpected changes
 ```
 
-- Never commit `*.tfstate` (bootstrap or site).
+- Never commit `*.tfstate` (bootstrap or site) — gitignored.
 - Providers pin `allowed_account_ids` to `990207457148`.
-- Locking allows safer multi-writer / CI apply ([#11](https://github.com/estesadvisory/estesadvisory.com/issues/11)).
-- Bootstrap state stays local under `terraform/bootstrap/` (tiny surface; backup after apply).
 
 ## Content deploy (iterative)
 
@@ -129,16 +149,18 @@ Not uploaded: `terraform/`, `Makefile`, `README.md`, `docs/`, `.git/`, `.github/
 
 ### GitHub Actions content deploy (OIDC)
 
-Workflow: `.github/workflows/deploy-site.yml` (push to `main` on content paths, or manual `workflow_dispatch`).
+**Flow:** open PR → **merge to `main`** → Actions syncs allowlisted static files to S3 and invalidates CloudFront.  
+Not: deploy on every open PR. **Not:** Terraform apply (infra stays `make tf-plan` / `tf-apply` on a machine with SSO).
 
-1. Apply Terraform so OIDC provider + role exist: `make tf-plan && make tf-apply`
-2. Copy role ARN: `cd terraform && terraform output -raw gha_site_deploy_role_arn`
-3. In GitHub repo **Settings → Secrets and variables → Actions → Variables**:  
-   - `AWS_GHA_DEPLOY_ROLE_ARN` = that ARN
-4. Create Environment **production** (Settings → Environments) if missing — workflow jobs use it
-5. Merge content to `main` or run the workflow manually
+Workflow: `.github/workflows/deploy-site.yml`  
+Triggers: push to `main` (path filters for html/css/js/assets/robots/sitemap), or **Actions → Deploy site → Run workflow**.
 
-Role trust is limited to `estesadvisory/estesadvisory.com` (`main` ref or `production` environment). Permissions: site bucket object R/W + CloudFront invalidation only (no Terraform apply).
+| GitHub setting | Value |
+|----------------|--------|
+| Repo variable `AWS_GHA_DEPLOY_ROLE_ARN` | `arn:aws:iam::990207457148:role/estesadvisory-com-gha-site-deploy` |
+| Environment name | `production` |
+
+Role trust is limited to `estesadvisory/estesadvisory.com` (`main` ref or `production` environment). Permissions: site bucket object R/W + CloudFront invalidation only.
 
 ## Outputs
 

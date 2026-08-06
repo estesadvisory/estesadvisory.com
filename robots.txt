@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
 
+# Deployed via GitHub Actions on merge to main (see docs/DEPLOYMENT.md)
 Sitemap: https://estesadvisory.com/sitemap.xml
