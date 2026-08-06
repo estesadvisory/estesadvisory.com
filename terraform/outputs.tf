@@ -32,3 +32,8 @@ output "www_url" {
   description = "www HTTPS URL (if enabled)."
   value       = var.enable_www ? "https://${local.www_domain}" : null
 }
+
+output "cf_logs_bucket_name" {
+  description = "S3 bucket receiving CloudFront standard access logs."
+  value       = aws_s3_bucket.cf_logs.id
+}

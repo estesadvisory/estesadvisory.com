@@ -13,6 +13,7 @@ Related issues: epic [#4](https://github.com/estesadvisory/estesadvisory.com/iss
 | ACM (us-east-1) | TLS for apex + `www` |
 | CloudFront | HTTPS CDN, security headers, compression |
 | Route53 zone `Z0628734KB79OZ2T16SR` | Apex + www alias A/AAAA → CloudFront |
+| S3 `estesadvisory.com-cf-logs` | CloudFront standard access logs (private, 90-day lifecycle) |
 
 Existing **MX → Google** and Google verification CNAMEs are left untouched.
 
@@ -139,4 +140,6 @@ CloudFront response headers send `Strict-Transport-Security` with `max-age=31536
 
 - **www** currently serves the same content as apex (canonical 301 is [#5](https://github.com/estesadvisory/estesadvisory.com/issues/5)).
 - Do not commit `*.tfstate` or `terraform.tfvars` with secrets (none required for v1).
-- CloudFront access logging is day-2 ([#17](https://github.com/estesadvisory/estesadvisory.com/issues/17)).
+### CloudFront access logs
+
+Standard logging writes to `s3://estesadvisory.com-cf-logs/cloudfront/` (see `terraform output cf_logs_bucket_name`). Bucket is private, encrypted, and expires objects after **90 days**. Log delivery uses S3 ACLs (`BucketOwnerPreferred` + CloudFront log-delivery canonical user) — do not switch that bucket to `BucketOwnerEnforced` without changing the delivery model.

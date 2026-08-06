@@ -51,3 +51,15 @@ variable "enable_www" {
   type        = bool
   default     = true
 }
+
+variable "cf_logs_bucket_name" {
+  description = "S3 bucket for CloudFront standard access logs (must be globally unique)."
+  type        = string
+  default     = "estesadvisory.com-cf-logs"
+}
+
+variable "cf_logs_retention_days" {
+  description = "Days to retain CloudFront access logs before lifecycle expiration."
+  type        = number
+  default     = 90
+}
