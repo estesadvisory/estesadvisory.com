@@ -19,9 +19,19 @@ export AWS_PROFILE AWS_REGION
 help: ## Show targets
 	@grep -E '^[a-zA-Z_-]+:.*?## ' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "  \033[36m%-18s\033[0m %s\n", $$1, $$2}'
 
+.PHONY: tf-bootstrap-backend
+tf-bootstrap-backend: ## Create S3 state bucket + DynamoDB lock (bootstrap local state)
+	cd $(TF_DIR)/bootstrap && terraform init && terraform apply
+
 .PHONY: tf-init
-tf-init: ## terraform init
+tf-init: ## terraform init (S3 backend)
 	cd $(TF_DIR) && terraform init
+
+.PHONY: tf-migrate-state
+tf-migrate-state: ## Migrate local site state to S3 backend (interactive)
+	@test -f $(TF_DIR)/terraform.tfstate || (echo "No local $(TF_DIR)/terraform.tfstate to migrate"; exit 1)
+	cp $(TF_DIR)/terraform.tfstate "$(TF_DIR)/terraform.tfstate.bak.$$(date +%Y%m%d%H%M%S)"
+	cd $(TF_DIR) && terraform init -migrate-state
 
 .PHONY: tf-validate
 tf-validate: ## terraform validate
