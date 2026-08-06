@@ -35,10 +35,12 @@ resource "aws_cloudfront_response_headers_policy" "security" {
       override        = true
     }
 
+    # v1: HSTS on apex only — no include_subdomains / preload until all
+    # future subdomains are on HTTPS and we intentionally submit preload (#18).
     strict_transport_security {
       access_control_max_age_sec = 31536000
-      include_subdomains         = true
-      preload                    = true
+      include_subdomains         = false
+      preload                    = false
       override                   = true
     }
 
