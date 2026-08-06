@@ -39,6 +39,33 @@ make tf-output
 
 ACM DNS validation is automatic via Route53 (can take a few minutes).
 
+### DNS cutover checklist
+
+Terraform manages **only**:
+
+- ACM DNS validation CNAMEs
+- Apex + `www` **A/AAAA alias** records → CloudFront
+
+It does **not** modify MX, existing TXT, or unrelated CNAMEs (e.g. Google verification).
+
+Before first apply (or if apply fails on record conflicts):
+
+1. List apex/www records:  
+   `aws route53 list-resource-record-sets --hosted-zone-id Z0628734KB79OZ2T16SR --query "ResourceRecordSets[?Name=='estesadvisory.com.' || Name=='www.estesadvisory.com.']"`
+2. Remove or **import** any existing apex/www **A / AAAA / CNAME** that is not managed by this state (Route53 rejects conflicting duplicates).
+3. Confirm **MX → Google** (and any mail-related TXT) remain after apply.
+4. Optional: lower TTL on old records ahead of cutover if they already exist.
+5. **www** currently serves the same content as apex until [#5](https://github.com/estesadvisory/estesadvisory.com/issues/5) (canonical redirect).
+
+### Terraform state (local v1)
+
+State lives under `terraform/terraform.tfstate` (gitignored). Solo-operator only for now:
+
+- **Backup** `terraform.tfstate` (and `.backup`) after the first successful apply (e.g. encrypted personal backup — never commit to git).
+- **One writer** — do not apply from a second laptop/CI without remote state + lock ([#12](https://github.com/estesadvisory/estesadvisory.com/issues/12)).
+- Providers pin `allowed_account_ids` to `990207457148` so a wrong SSO account cannot apply.
+- Prioritize remote state ([#12](https://github.com/estesadvisory/estesadvisory.com/issues/12)) before multi-operator or GitHub Actions deploy ([#11](https://github.com/estesadvisory/estesadvisory.com/issues/11)).
+
 ## Content deploy (iterative)
 
 After infra exists:
@@ -104,8 +131,12 @@ Before `terraform destroy` (or if destroy fails on a non-empty bucket):
 
 Lifecycle: noncurrent versions expire after **30 days**; incomplete multipart uploads abort after **7 days** (#24).
 
+## HSTS
+
+CloudFront response headers send `Strict-Transport-Security` with `max-age=31536000` on the site host only. **v1 does not** set `includeSubDomains` or `preload` ([#18](https://github.com/estesadvisory/estesadvisory.com/issues/18)). Revisit before adding non-HTTPS subdomains or submitting to the browser preload list.
+
 ## Notes
 
 - **www** currently serves the same content as apex (canonical 301 is [#5](https://github.com/estesadvisory/estesadvisory.com/issues/5)).
-- State is **local** under `terraform/` (gitignored). Remote state is [#12](https://github.com/estesadvisory/estesadvisory.com/issues/12).
 - Do not commit `*.tfstate` or `terraform.tfvars` with secrets (none required for v1).
+- CloudFront access logging is day-2 ([#17](https://github.com/estesadvisory/estesadvisory.com/issues/17)).
