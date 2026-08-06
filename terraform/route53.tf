@@ -23,7 +23,7 @@ resource "aws_route53_record" "apex_aaaa" {
   }
 }
 
-# www A/AAAA → CloudFront (same distribution; canonical redirect is #5 / P1)
+# www A/AAAA → CloudFront (viewer-request function 301s www → apex; see #5)
 resource "aws_route53_record" "www_a" {
   count = var.enable_www ? 1 : 0
 

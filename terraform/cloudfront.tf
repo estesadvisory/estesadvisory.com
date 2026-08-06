@@ -60,6 +60,20 @@ resource "aws_cloudfront_response_headers_policy" "security" {
   }
 }
 
+# 301 www → apex (canonical host). Only created when enable_www is true (#5).
+resource "aws_cloudfront_function" "www_to_apex" {
+  count = var.enable_www ? 1 : 0
+
+  name    = "${var.project_name}-www-to-apex"
+  runtime = "cloudfront-js-2.0"
+  comment = "301 redirect www.${var.domain_name} → https://${var.domain_name}"
+  publish = true
+  code = templatefile("${path.module}/functions/www_to_apex.js", {
+    apex_domain = var.domain_name
+    www_domain  = local.www_domain
+  })
+}
+
 resource "aws_cloudfront_distribution" "site" {
   enabled             = true
   is_ipv6_enabled     = true
@@ -91,6 +105,14 @@ resource "aws_cloudfront_distribution" "site" {
     cache_policy_id            = data.aws_cloudfront_cache_policy.caching_optimized.id
     origin_request_policy_id   = data.aws_cloudfront_origin_request_policy.cors_s3.id
     response_headers_policy_id = aws_cloudfront_response_headers_policy.security.id
+
+    dynamic "function_association" {
+      for_each = var.enable_www ? [1] : []
+      content {
+        event_type   = "viewer-request"
+        function_arn = aws_cloudfront_function.www_to_apex[0].arn
+      }
+    }
   }
 
   # Multi-page static site: serve a real 404 page (not SPA rewrite).
