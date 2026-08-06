@@ -63,3 +63,9 @@ variable "cf_logs_retention_days" {
   type        = number
   default     = 90
 }
+
+variable "github_repository" {
+  description = "GitHub org/repo allowed to assume the GHA deploy role via OIDC (e.g. estesadvisory/estesadvisory.com)."
+  type        = string
+  default     = "estesadvisory/estesadvisory.com"
+}
