@@ -1,16 +1,38 @@
 # estesadvisory.com
 
-Static website for **Estes Advisory LLC** — blueprint design, S3 / GitHub Pages ready.
+Static website for **Estes Advisory LLC** — blueprint design, production deploy on AWS.
 
-## Local
+## Local preview
 
 ```bash
-npx serve . -l 8080
+python3 -m http.server 8765
+# → http://127.0.0.1:8765
 ```
 
-## Deploy
+## Production deploy
 
-- **GitHub Pages:** Settings → Pages → Deploy from `main` / root  
-- **S3:** Sync this directory to the bucket (static website hosting + CloudFront optional)
+Infra + CDN: **S3 (private) → CloudFront (HTTPS) → Route53** via Terraform.
 
-Logo: classic EA mark in `assets/`.
+```bash
+export AWS_PROFILE=mike
+aws sso login
+
+make tf-init && make tf-plan && make tf-apply   # first time / infra changes
+make deploy                                     # content sync + invalidate
+make smoke
+```
+
+Full details: [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md).
+
+## Layout
+
+| Path | Purpose |
+|------|---------|
+| `index.html`, `book.html`, `404.html` | Pages |
+| `css/`, `js/`, `assets/` | Static assets |
+| `terraform/` | S3, ACM, CloudFront, Route53 |
+| `Makefile` | `deploy`, `tf-*`, `smoke` |
+
+## Tracking
+
+Epic: [Production static site (#4)](https://github.com/estesadvisory/estesadvisory.com/issues/4).
