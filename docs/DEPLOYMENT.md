@@ -199,6 +199,19 @@ Before `terraform destroy` (or if destroy fails on a non-empty bucket):
 
 Lifecycle: noncurrent versions expire after **30 days**; incomplete multipart uploads abort after **7 days** (#24).
 
+
+### Analytics (Plausible)
+
+Privacy-first analytics — **not** Google Analytics ([#47](https://github.com/estesadvisory/estesadvisory.com/issues/47)).
+
+- Script: `https://plausible.io/js/script.outbound-links.js` (pageviews + outbound clicks, e.g. Cal.com)
+- Domain: `data-domain="estesadvisory.com"`
+- No cookies; GDPR-friendly by design
+
+**Operator setup:** create a site for `estesadvisory.com` at [plausible.io](https://plausible.io) (or self-hosted equivalent). Until the domain is registered in your Plausible account, the script loads but does not record under your dashboard.
+
+CloudFront access logs remain available for server-side traffic forensics (separate from product analytics).
+
 ## HSTS
 
 CloudFront response headers send `Strict-Transport-Security` with `max-age=31536000` on the site host only. **v1 does not** set `includeSubDomains` or `preload` ([#18](https://github.com/estesadvisory/estesadvisory.com/issues/18)). Revisit before adding non-HTTPS subdomains or submitting to the browser preload list.
