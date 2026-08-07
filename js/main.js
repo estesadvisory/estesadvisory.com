@@ -4,35 +4,82 @@
 (function () {
   "use strict";
 
-  window.ESTES_CONFIG = {
-    email: "mike@estesadvisory.com",
-    phoneDisplay: "+1 415.530.8743",
-    phoneHref: "tel:+14155308743",
-  };
-
   // ── Mobile nav ────────────────────────────────────────────────────
   const toggle = document.getElementById("menu-toggle");
   const mobileNav = document.getElementById("mobile-nav");
+  let lastFocus = null;
+
+  function setMenuOpen(open) {
+    if (!toggle || !mobileNav) return;
+    mobileNav.classList.toggle("open", open);
+    toggle.setAttribute("aria-expanded", open ? "true" : "false");
+    document.body.classList.toggle("nav-open", open);
+    const label = toggle.querySelector(".sr-only");
+    if (label) label.textContent = open ? "Close menu" : "Open menu";
+
+    if (open) {
+      lastFocus = document.activeElement;
+      const first = mobileNav.querySelector("a, button");
+      if (first) first.focus();
+    } else if (lastFocus && typeof lastFocus.focus === "function") {
+      lastFocus.focus();
+      lastFocus = null;
+    }
+  }
+
+  function closeMenu() {
+    setMenuOpen(false);
+  }
 
   if (toggle && mobileNav) {
     toggle.addEventListener("click", function () {
-      const open = mobileNav.classList.toggle("open");
-      toggle.setAttribute("aria-expanded", open ? "true" : "false");
-      const label = toggle.querySelector(".sr-only");
-      if (label) label.textContent = open ? "Close menu" : "Open menu";
+      const open = !mobileNav.classList.contains("open");
+      setMenuOpen(open);
     });
 
     mobileNav.querySelectorAll("a").forEach(function (link) {
-      link.addEventListener("click", function () {
-        mobileNav.classList.remove("open");
-        toggle.setAttribute("aria-expanded", "false");
-      });
+      link.addEventListener("click", closeMenu);
+    });
+
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && mobileNav.classList.contains("open")) {
+        e.preventDefault();
+        closeMenu();
+        toggle.focus();
+      }
+    });
+
+    // Basic focus trap while mobile menu is open
+    mobileNav.addEventListener("keydown", function (e) {
+      if (e.key !== "Tab" || !mobileNav.classList.contains("open")) return;
+      const focusable = mobileNav.querySelectorAll(
+        'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
+      );
+      if (!focusable.length) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
     });
   }
 
   // ── Active section highlighting for hash nav ──────────────────────
-  const sectionIds = ["about", "services", "approach", "partners", "contact"];
-  const navLinks = document.querySelectorAll('.nav-desktop a[href^="#"], .mobile-nav a[href^="#"]');
+  const sectionIds = [
+    "about",
+    "services",
+    "approach",
+    "engagements",
+    "partners",
+    "contact",
+  ];
+  const navLinks = document.querySelectorAll(
+    '.nav-desktop a[href^="#"], .mobile-nav a[href^="#"]'
+  );
 
   function setCurrentFromHash() {
     const hash = (location.hash || "").replace("#", "");
@@ -62,9 +109,13 @@
           navLinks.forEach(function (a) {
             a.removeAttribute("aria-current");
           });
-          document.querySelectorAll('.nav-desktop a[href="#' + id + '"]').forEach(function (a) {
-            a.setAttribute("aria-current", "page");
-          });
+          document
+            .querySelectorAll(
+              '.nav-desktop a[href="#' + id + '"], .mobile-nav a[href="#' + id + '"]'
+            )
+            .forEach(function (a) {
+              a.setAttribute("aria-current", "page");
+            });
         });
       },
       { rootMargin: "-35% 0px -50% 0px", threshold: 0.01 }

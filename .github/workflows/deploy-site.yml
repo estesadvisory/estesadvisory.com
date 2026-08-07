@@ -1,21 +1,23 @@
-# Content-only deploy on push to main (#11).
+# Content-only deploy on push to main (#11, reliability #45).
 # Infra (Terraform) is applied out-of-band; this job only syncs static files + invalidates CDN.
 name: Deploy site
 
 on:
   push:
     branches: [main]
-    paths:
-      - "**.html"
-      - "css/**"
-      - "js/**"
-      - "assets/**"
-      - "robots.txt"
-      - "sitemap.xml"
-      - "favicon.ico"
-      - "site.webmanifest"
-      - ".github/workflows/deploy-site.yml"
+    # Broad filters so merge commits that touch site content always fire.
+    # Exclude terraform/docs-only noise via paths-ignore where possible.
+    paths-ignore:
+      - "terraform/**"
+      - "docs/**"
+      - "README.md"
+      - ".gitignore"
+      - "Makefile"
   workflow_dispatch:
+
+concurrency:
+  group: deploy-site-production
+  cancel-in-progress: true
 
 permissions:
   id-token: write
@@ -23,15 +25,14 @@ permissions:
 
 env:
   AWS_REGION: us-east-1
-  # Set after first Terraform apply of github_oidc.tf (or override as repository variable).
-  # ROLE_ARN from: terraform output -raw gha_site_deploy_role_arn
   SITE_BUCKET: estesadvisory.com
   CLOUDFRONT_DISTRIBUTION_ID: ER3NN8S5BKILJ
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    environment: production
+    # No GitHub Environment gate — env protection previously correlated with long queue/cancel (#45).
+    timeout-minutes: 15
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -89,6 +90,18 @@ jobs:
               --metadata-directive REPLACE \
               --cache-control "public,max-age=300,must-revalidate" \
               --content-type "application/javascript; charset=utf-8"
+          fi
+
+          # Correct types for root favicon / manifest when present
+          if [ -f favicon.ico ]; then
+            aws s3 cp favicon.ico "s3://${SITE_BUCKET}/favicon.ico" \
+              --content-type "image/x-icon" \
+              --cache-control "public,max-age=31536000,immutable"
+          fi
+          if [ -f site.webmanifest ]; then
+            aws s3 cp site.webmanifest "s3://${SITE_BUCKET}/site.webmanifest" \
+              --content-type "application/manifest+json" \
+              --cache-control "public,max-age=300,must-revalidate"
           fi
 
       - name: Invalidate CloudFront
