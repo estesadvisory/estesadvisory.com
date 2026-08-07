@@ -1,23 +1,74 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Page not found — Estes Advisory</title>
-  <link rel="stylesheet" href="/css/styles.css" />
-  <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png" />
-  <script
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Page not found — Estes Advisory</title>
+    <meta name="robots" content="noindex" />
+    <meta name="theme-color" content="#f4f7fa" />
+    <link rel="canonical" href="https://estesadvisory.com/" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png" />
+    <link rel="stylesheet" href="/css/styles.css" />
+    <script
       defer
       data-domain="estesadvisory.com"
       src="https://plausible.io/js/script.outbound-links.js"
     ></script>
-</head>
-<body>
-  <main style="max-width:40rem;margin:4rem auto;padding:1.5rem;font-family:system-ui,sans-serif;">
-    <p style="letter-spacing:0.08em;text-transform:uppercase;color:#0a1f4d;font-size:0.8rem;">404</p>
-    <h1 style="color:#0a1f4d;">Page not found</h1>
-    <p>That path is not on this site.</p>
-    <p><a href="/" style="color:#0a1f4d;">← Back to Estes Advisory</a></p>
-  </main>
-</body>
+  </head>
+  <body class="blueprint-grid-fine">
+    <header class="site-header">
+      <div class="wrap inner">
+        <a class="brand" href="/">
+          <span class="brand-mark" aria-hidden="true">
+            <img src="/assets/logo-ea-header.png" alt="" width="74" height="60" decoding="async" />
+          </span>
+          <span class="brand-text">
+            <span class="brand-name">Estes Advisory</span>
+            <span class="brand-tag">Systems · Cloud · AI</span>
+          </span>
+        </a>
+        <div class="nav-actions">
+          <a
+            class="btn btn-primary"
+            href="https://cal.com/estesadvisory"
+            target="_blank"
+            rel="noopener noreferrer"
+            >Book a call</a
+          >
+        </div>
+      </div>
+    </header>
+
+    <main id="main" class="section">
+      <div class="wrap" style="max-width: 36rem">
+        <span class="label">ERR · 404</span>
+        <h1 class="heading" style="margin-top: 0.75rem">Page not found</h1>
+        <p class="body-muted">
+          That path is not on this drawing. Return home or schedule a conversation.
+        </p>
+        <div class="hero-actions" style="margin-top: 1.5rem">
+          <a class="btn btn-primary" href="/">← Back to home</a>
+          <a
+            class="btn btn-secondary"
+            href="https://cal.com/estesadvisory"
+            target="_blank"
+            rel="noopener noreferrer"
+            >Book a call</a
+          >
+        </div>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <div class="wrap">
+        <div class="footer-bottom" style="margin-top: 0; border-top: none; padding-top: 0">
+          <span>© <span id="y"></span> Estes Advisory LLC</span>
+          <span class="build-id"><!--BUILD_ID-->rev pending · built pending<!--/BUILD_ID--></span>
+        </div>
+      </div>
+    </footer>
+    <script>
+      document.getElementById("y").textContent = new Date().getFullYear();
+    </script>
+  </body>
 </html>
