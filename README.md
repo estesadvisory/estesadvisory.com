@@ -1,6 +1,8 @@
 # estesadvisory.com
 
-Static website for **Estes Advisory LLC** — blueprint design, production deploy on AWS.
+Static website for **Estes Advisory LLC** — blueprint design, production on **S3 + CloudFront**.
+
+**Status:** production live at [https://estesadvisory.com](https://estesadvisory.com). Epic [#4](https://github.com/estesadvisory/estesadvisory.com/issues/4) is complete.
 
 ## Local preview
 
@@ -9,32 +11,52 @@ python3 -m http.server 8765
 # → http://127.0.0.1:8765
 ```
 
-## Production deploy
+## Content deploy (two paths)
 
-Infra + CDN: **S3 (private) → CloudFront (HTTPS) → Route53** via Terraform.
+| Path | When to use |
+|------|-------------|
+| **GitHub Actions** (primary) | Merge to `main` touching site files → stamps build id, S3 sync, CloudFront invalidation |
+| **`make deploy`** (known-good backup) | Actions red/stuck, or you need an immediate laptop deploy with AWS SSO |
 
 ```bash
 export AWS_PROFILE=mike
 aws sso login
 
-make tf-init && make tf-plan && make tf-apply   # first time / infra changes
-make deploy                                     # content sync + invalidate
+# Content (laptop backup)
+make deploy
 make smoke
+
+# Infra only (never via Actions)
+make tf-init && make tf-plan && make tf-apply
 ```
 
 Full details: [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md).
 
-**Production is CloudFront, not GitHub Pages.** If Settings → Pages is still on, set Source to **None** so automatic Pages builds do not look like deploys.
+**Production is CloudFront, not GitHub Pages.** Settings → Pages should stay **Source: None**.
 
 ## Layout
 
 | Path | Purpose |
 |------|---------|
-| `index.html`, `book.html`, `404.html` | Pages |
-| `css/`, `js/`, `assets/` | Static assets |
-| `terraform/` | S3, ACM, CloudFront, Route53 |
+| `index.html`, `book.html`, `404.html` | Pages (`book.html` → Cal.com only; keep for old links) |
+| `css/`, `js/`, `assets/` | Static assets (`assets/og-share.png` = 1200×630 social card) |
+| `terraform/` | S3, ACM, CloudFront, Route53, OIDC deploy role |
 | `Makefile` | `deploy`, `tf-*`, `smoke` |
+| `.github/workflows/deploy-site.yml` | Content deploy on `main` |
+
+## Social parity (LinkedIn)
+
+Use the same positioning as the site so inbound doesn’t feel like two brands:
+
+| Surface | Copy |
+|---------|------|
+| Company tagline | Architect of Systems — cloud, data, AI, partnerships |
+| Company about (short) | Estes Advisory helps leaders make clear decisions about cloud architecture, data strategy, AI production, and strategic partnerships — then stays close until the path is executable. Texas & California. |
+| Primary CTA | Schedule: https://cal.com/estesadvisory · Site: https://estesadvisory.com |
+| Personal headline (aligned) | Principal, Estes Advisory · Cloud, data & AI advisory |
+
+Update the [company page](https://www.linkedin.com/company/estes-advisory/) and personal profile manually in LinkedIn — not deployable from this repo.
 
 ## Tracking
 
-Epic: [Production static site (#4)](https://github.com/estesadvisory/estesadvisory.com/issues/4).
+Epic [#4](https://github.com/estesadvisory/estesadvisory.com/issues/4) — closed (production site shipped). New work: open focused issues as needed.
