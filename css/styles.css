@@ -747,6 +747,18 @@ button:disabled {
   flex: 1;
 }
 
+/* Concrete deliverable / outcome under service copy */
+.card-outcome {
+  margin: 0.85rem 0 0;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--blue-line-soft);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.04em;
+  line-height: 1.45;
+  color: var(--blue-strong);
+}
+
 .card-pop {
   border-color: color-mix(in srgb, var(--pop) 35%, var(--blue-line-soft));
 }
