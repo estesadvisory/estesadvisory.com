@@ -12,6 +12,8 @@ on:
       - "assets/**"
       - "robots.txt"
       - "sitemap.xml"
+      - "favicon.ico"
+      - "site.webmanifest"
       - ".github/workflows/deploy-site.yml"
   workflow_dispatch:
 
@@ -55,6 +57,8 @@ jobs:
             --include "assets/*" \
             --include "robots.txt" \
             --include "sitemap.xml" \
+            --include "favicon.ico" \
+            --include "site.webmanifest" \
             --cache-control "public,max-age=300,must-revalidate"
 
           aws s3 cp "s3://${SITE_BUCKET}/" "s3://${SITE_BUCKET}/" --recursive \
