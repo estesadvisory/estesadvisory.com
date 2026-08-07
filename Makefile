@@ -62,7 +62,9 @@ SITE_SYNC_EXCLUDES := \
 	--include "js/*" \
 	--include "assets/*" \
 	--include "robots.txt" \
-	--include "sitemap.xml"
+	--include "sitemap.xml" \
+	--include "favicon.ico" \
+	--include "site.webmanifest"
 
 .PHONY: stamp
 stamp: ## Stamp footer build id (git SHA + UTC) into index.html
