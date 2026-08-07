@@ -166,14 +166,19 @@ rev <7-char-sha> · built <YYYY-MM-DDTHH:MM:SSZ>
 Not: deploy on every open PR. **Not:** Terraform apply (infra stays `make tf-plan` / `tf-apply` on a machine with SSO).
 
 Workflow: `.github/workflows/deploy-site.yml`  
-Triggers: push to `main` (path filters for html/css/js/assets/robots/sitemap), or **Actions → Deploy site → Run workflow**.
+Triggers: push to `main` (ignores pure `terraform/**` / `docs/**` / README-only changes), or **Actions → Deploy site → Run workflow**.
 
 | GitHub setting | Value |
 |----------------|--------|
 | Repo variable `AWS_GHA_DEPLOY_ROLE_ARN` | `arn:aws:iam::990207457148:role/estesadvisory-com-gha-site-deploy` |
-| Environment name | `production` |
 
-Role trust is limited to `estesadvisory/estesadvisory.com` (`main` ref or `production` environment). Permissions: site bucket object R/W + CloudFront invalidation only.
+**Reliability notes (#45):**
+- Job does **not** use a GitHub Environment (env protection correlated with long queue / cancel).
+- `timeout-minutes: 15` and concurrency `deploy-site-production` (cancel in-progress).
+- OIDC role trust still allows `environment:production` if re-added later; not required for the job today.
+- **Laptop backup:** `export AWS_PROFILE=mike && make deploy` if Actions is red or stuck.
+
+Role trust is limited to `estesadvisory/estesadvisory.com` (`main` ref). Permissions: site bucket object R/W + CloudFront invalidation only.
 
 ## Outputs
 

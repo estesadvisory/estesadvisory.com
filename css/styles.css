@@ -10,7 +10,8 @@
   --ink: #0b1220;
   --ink-soft: #1a2433;
   --ink-muted: #4a5568;
-  --ink-subtle: #7a8699;
+  /* Slightly darker subtle ink for WCAG-friendlier secondary text on paper */
+  --ink-subtle: #5c6b7e;
 
   --blue-line: #3d7ea6;
   --blue-line-soft: rgba(61, 126, 166, 0.18);
@@ -127,6 +128,44 @@ a {
 
 a:hover {
   color: var(--ink);
+}
+
+/* Visible keyboard focus (do not remove outline without replacement) */
+:focus {
+  outline: none;
+}
+
+:focus-visible {
+  outline: 2px solid var(--blue-strong);
+  outline-offset: 3px;
+}
+
+.btn:focus-visible,
+.menu-toggle:focus-visible {
+  outline: 2px solid var(--blue-strong);
+  outline-offset: 3px;
+}
+
+/* Skip link becomes visible on keyboard focus */
+a.sr-only:focus,
+a.sr-only:focus-visible {
+  position: fixed;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: 1000;
+  width: auto;
+  height: auto;
+  margin: 0;
+  padding: 0.65rem 1rem;
+  overflow: visible;
+  clip: auto;
+  white-space: normal;
+  background: var(--ink);
+  color: #fff;
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+  outline: 2px solid var(--blue-strong);
+  outline-offset: 2px;
 }
 
 button,
@@ -396,6 +435,11 @@ button:disabled {
 
 .mobile-nav.open {
   display: block;
+}
+
+/* When open, lock body scroll on small screens via class on body */
+body.nav-open {
+  overflow: hidden;
 }
 
 .mobile-nav .panel {
