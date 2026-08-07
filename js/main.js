@@ -68,6 +68,53 @@
     });
   }
 
+  // ── Privacy toast (no storage; auto-dismiss; never traps focus) ───
+  (function initPrivacyToast() {
+    // Skip pure redirect helper pages
+    if (!document.getElementById("main")) return;
+
+    const toast = document.createElement("div");
+    toast.className = "privacy-toast";
+    toast.setAttribute("role", "status");
+    toast.setAttribute("aria-live", "polite");
+    toast.setAttribute("aria-atomic", "true");
+    toast.innerHTML =
+      '<p>No cookies or trackers on this site. <a href="#privacy">Privacy</a></p>' +
+      '<button type="button" class="privacy-toast-dismiss" aria-label="Dismiss">' +
+      "×</button>";
+
+    document.body.appendChild(toast);
+
+    const dismissBtn = toast.querySelector(".privacy-toast-dismiss");
+    let hideTimer = null;
+    let removed = false;
+
+    function removeToast() {
+      if (removed) return;
+      removed = true;
+      if (hideTimer) window.clearTimeout(hideTimer);
+      toast.classList.remove("is-visible");
+      toast.classList.add("is-leaving");
+      window.setTimeout(function () {
+        if (toast.parentNode) toast.parentNode.removeChild(toast);
+      }, 400);
+    }
+
+    // Show after a short delay so it is not the first thing you fight
+    window.setTimeout(function () {
+      if (removed) return;
+      toast.classList.add("is-visible");
+      hideTimer = window.setTimeout(removeToast, 7000);
+    }, 1200);
+
+    if (dismissBtn) {
+      dismissBtn.addEventListener("click", function (e) {
+        e.preventDefault();
+        removeToast();
+      });
+    }
+  })();
+
   // ── Active section highlighting for hash nav ──────────────────────
   const sectionIds = [
     "about",

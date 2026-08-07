@@ -1201,6 +1201,101 @@ body.nav-open {
   border: 0;
 }
 
+/* Brief privacy toast — no storage, no focus trap */
+.privacy-toast {
+  position: fixed;
+  right: 1rem;
+  bottom: 1rem;
+  z-index: 40;
+  max-width: min(18.5rem, calc(100vw - 2rem));
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+  padding: 0.7rem 0.75rem 0.7rem 0.85rem;
+  background: var(--paper-elevated);
+  border: 1px solid var(--blue-line-soft);
+  box-shadow: 0 8px 24px rgba(11, 18, 32, 0.08);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  line-height: 1.45;
+  letter-spacing: 0.03em;
+  color: var(--ink-muted);
+  opacity: 0;
+  transform: translateY(0.4rem);
+  pointer-events: none;
+  transition:
+    opacity 0.35s var(--ease),
+    transform 0.35s var(--ease);
+}
+
+.privacy-toast.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.privacy-toast.is-leaving {
+  opacity: 0;
+  transform: translateY(0.35rem);
+  pointer-events: none;
+}
+
+.privacy-toast p {
+  margin: 0;
+  flex: 1;
+}
+
+.privacy-toast a {
+  color: var(--blue-strong);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.privacy-toast a:hover {
+  color: var(--ink);
+}
+
+.privacy-toast-dismiss {
+  flex-shrink: 0;
+  width: 1.5rem;
+  height: 1.5rem;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--ink-subtle);
+  border-radius: var(--radius-xs);
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.privacy-toast-dismiss:hover {
+  color: var(--ink);
+  border-color: var(--blue-line-soft);
+  background: var(--blue-fill);
+}
+
+@media (max-width: 480px) {
+  .privacy-toast {
+    right: 0.65rem;
+    bottom: 0.65rem;
+    max-width: calc(100vw - 1.3rem);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .privacy-toast {
+    transition: opacity 0.15s linear;
+    transform: none;
+  }
+
+  .privacy-toast.is-leaving {
+    transform: none;
+  }
+}
+
 .inline-pop {
   color: var(--pop-strong);
 }
