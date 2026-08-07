@@ -155,7 +155,7 @@ Public footer (right of copyright) is stamped at **deploy time**, not hand-edite
 rev <7-char-sha> · built <YYYY-MM-DDTHH:MM:SSZ>
 ```
 
-- Script: `scripts/stamp-build.sh` (markers `<!--BUILD_ID-->…<!--/BUILD_ID-->` in `index.html`)
+- Script: `scripts/stamp-build.sh` (markers `<!--BUILD_ID-->…<!--/BUILD_ID-->` in `index.html` and `404.html`)
 - Local: `make stamp` or automatically via `make sync` / `make deploy`
 - CI: **Deploy site** workflow runs stamp before S3 sync
 - Repo source keeps `rev pending · built pending` until the next stamp; stamped values are not committed back from Actions
@@ -199,6 +199,18 @@ Before `terraform destroy` (or if destroy fails on a non-empty bucket):
 
 Lifecycle: noncurrent versions expire after **30 days**; incomplete multipart uploads abort after **7 days** (#24).
 
+
+### GitHub Pages (disable if still enabled)
+
+Production is **S3 + CloudFront only**. If the repo still runs the automatic
+“pages build and deployment” workflow, turn Pages off so it is not confused
+with production deploys ([#38](https://github.com/estesadvisory/estesadvisory.com/issues/38)):
+
+1. GitHub → **Settings → Pages**
+2. **Build and deployment → Source** → **None** (or disable GitHub Pages)
+3. Confirm no further “pages build and deployment” runs on push to `main`
+
+Canonical site: `https://estesadvisory.com`
 
 ### Analytics (Plausible)
 

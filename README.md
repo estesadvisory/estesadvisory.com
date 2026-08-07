@@ -24,6 +24,8 @@ make smoke
 
 Full details: [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md).
 
+**Production is CloudFront, not GitHub Pages.** If Settings → Pages is still on, set Source to **None** so automatic Pages builds do not look like deploys.
+
 ## Layout
 
 | Path | Purpose |
