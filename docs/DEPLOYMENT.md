@@ -2,7 +2,7 @@
 
 Production static site on **S3 + CloudFront + ACM + Route53**, managed with Terraform.
 
-Related issues: epic [#4](https://github.com/estesadvisory/estesadvisory.com/issues/4).
+Related: epic [#4](https://github.com/estesadvisory/estesadvisory.com/issues/4) (production site — **complete**).
 
 ## Architecture
 
@@ -110,10 +110,17 @@ terraform plan                  # expect no unexpected changes
 
 ## Content deploy (iterative)
 
-After infra exists:
+Two supported paths — **prefer Actions after merge; keep laptop deploy as backup.**
+
+| Path | Trigger | Notes |
+|------|---------|--------|
+| **Primary — GitHub Actions** | Push/merge to `main` (site paths) or **Actions → Deploy site → Run workflow** | OIDC role; stamps footer; no Terraform |
+| **Backup — laptop** | `make deploy` with `AWS_PROFILE=mike` SSO | Same allowlist + invalidation; use when Actions is red or you need an immediate fix |
+
+After infra exists (laptop):
 
 ```bash
-make deploy     # s3 sync + CloudFront invalidation /*
+make deploy     # stamp + s3 sync + CloudFront invalidation /*
 ```
 
 Or step by step:
@@ -144,8 +151,11 @@ Not uploaded: `terraform/`, `Makefile`, `README.md`, `docs/`, `.git/`, `.github/
 
 1. Edit HTML/CSS/JS locally  
 2. Preview: `python3 -m http.server 8765`  
-3. Commit / PR as usual  
-4. `make deploy` from a machine with AWS SSO  
+3. Commit / open PR / merge to `main`  
+4. Confirm **Deploy site** Actions run succeeds (primary)  
+5. If Actions fails or you need an immediate push: `export AWS_PROFILE=mike && make deploy` then `make smoke`  
+
+Do **not** treat GitHub Pages as production. Canonical host is apex via CloudFront.
 
 ### Build identity (footer)
 
@@ -176,9 +186,11 @@ Triggers: push to `main` (ignores pure `terraform/**` / `docs/**` / README-only 
 - Job does **not** use a GitHub Environment (env protection correlated with long queue / cancel).
 - `timeout-minutes: 15` and concurrency `deploy-site-production` (cancel in-progress).
 - OIDC role trust still allows `environment:production` if re-added later; not required for the job today.
-- **Laptop backup:** `export AWS_PROFILE=mike && make deploy` if Actions is red or stuck.
+- **Laptop backup is intentional and documented** — same allowlist as Actions; use when CI is red/stuck or for emergency content.
 
 Role trust is limited to `estesadvisory/estesadvisory.com` (`main` ref). Permissions: site bucket object R/W + CloudFront invalidation only.
+
+**Known-good rule:** If you are unsure which deploy path ran last, check footer `rev` on https://estesadvisory.com and the latest **Deploy site** workflow run. Laptop `make deploy` stamps the local git SHA at deploy time.
 
 ## Outputs
 

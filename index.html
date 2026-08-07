@@ -17,15 +17,27 @@
     />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://estesadvisory.com/" />
-    <meta property="og:image" content="https://estesadvisory.com/assets/logo-ea.png" />
-    <meta property="og:image:alt" content="Estes Advisory logo" />
-    <meta name="twitter:card" content="summary" />
+    <meta property="og:site_name" content="Estes Advisory" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:image" content="https://estesadvisory.com/assets/og-share.png" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta
+      property="og:image:alt"
+      content="Estes Advisory — Architect of Systems. Cloud, data, AI, and strategic partnerships."
+    />
+    <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Estes Advisory | Architect of Systems" />
     <meta
       name="twitter:description"
       content="Clarity, confidence, and execution for cloud, data, AI, and strategic growth."
     />
-    <meta name="twitter:image" content="https://estesadvisory.com/assets/logo-ea.png" />
+    <meta name="twitter:image" content="https://estesadvisory.com/assets/og-share.png" />
+    <meta
+      name="twitter:image:alt"
+      content="Estes Advisory — Architect of Systems. Cloud, data, AI, and strategic partnerships."
+    />
     <link rel="icon" href="/favicon.ico" sizes="any" />
     <link rel="icon" href="/assets/ea-monogram.svg" type="image/svg+xml" />
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png" />
@@ -39,6 +51,70 @@
       data-domain="estesadvisory.com"
       src="https://plausible.io/js/script.outbound-links.js"
     ></script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "Organization",
+            "@id": "https://estesadvisory.com/#organization",
+            "name": "Estes Advisory",
+            "legalName": "Estes Advisory LLC",
+            "url": "https://estesadvisory.com/",
+            "logo": {
+              "@type": "ImageObject",
+              "url": "https://estesadvisory.com/assets/logo-ea.png"
+            },
+            "image": "https://estesadvisory.com/assets/og-share.png",
+            "sameAs": [
+              "https://www.linkedin.com/company/estes-advisory/",
+              "https://www.linkedin.com/in/mikedestes"
+            ],
+            "founder": { "@id": "https://estesadvisory.com/#person" },
+            "areaServed": ["US"]
+          },
+          {
+            "@type": "ProfessionalService",
+            "@id": "https://estesadvisory.com/#service",
+            "name": "Estes Advisory",
+            "url": "https://estesadvisory.com/",
+            "image": "https://estesadvisory.com/assets/og-share.png",
+            "description": "Advisory for cloud architecture, data strategy, AI production, and strategic partnerships.",
+            "provider": { "@id": "https://estesadvisory.com/#organization" },
+            "areaServed": [
+              { "@type": "AdministrativeArea", "name": "Texas" },
+              { "@type": "AdministrativeArea", "name": "California" }
+            ],
+            "serviceType": [
+              "Cloud architecture advisory",
+              "Data strategy",
+              "AI production advisory",
+              "Strategic partnership diligence"
+            ],
+            "priceRange": "$$",
+            "sameAs": ["https://www.linkedin.com/company/estes-advisory/"]
+          },
+          {
+            "@type": "Person",
+            "@id": "https://estesadvisory.com/#person",
+            "name": "Mike Estes",
+            "url": "https://www.linkedin.com/in/mikedestes",
+            "jobTitle": "Principal",
+            "worksFor": { "@id": "https://estesadvisory.com/#organization" },
+            "sameAs": ["https://www.linkedin.com/in/mikedestes"]
+          },
+          {
+            "@type": "WebSite",
+            "@id": "https://estesadvisory.com/#website",
+            "url": "https://estesadvisory.com/",
+            "name": "Estes Advisory",
+            "description": "Clarity, confidence, and execution for cloud, data, AI, and strategic growth.",
+            "publisher": { "@id": "https://estesadvisory.com/#organization" },
+            "inLanguage": "en-US"
+          }
+        ]
+      }
+    </script>
   </head>
   <body class="blueprint-grid-fine">
     <a class="sr-only" href="#main">Skip to content</a>
@@ -448,6 +524,10 @@
           <div class="dim-line" style="margin-top: var(--space-6)">
             Scoped first · Expand only when useful · No retainer theater
           </div>
+          <p class="subhead" style="margin-top: var(--space-5); max-width: 40rem">
+            Named client outcomes available under NDA on request — we do not invent case studies
+            for the marketing site.
+          </p>
         </div>
       </section>
 
@@ -472,10 +552,11 @@
                 </a>
               </h3>
               <p>
-                Primary delivery partner for custom software and AI production engineering —
-                extend capacity from assessment through production when the work needs a team.
+                Primary delivery partner for tailored web, mobile, and AI-powered software —
+                product engineering capacity from assessment through production when the work
+                needs a team.
               </p>
-              <p class="card-outcome">→ Build & ship alongside advisory</p>
+              <p class="card-outcome">→ Build &amp; ship alongside advisory</p>
             </article>
             <article class="card partner-card">
               <div class="card-num">PRT-02 · Snowflake</div>
@@ -493,7 +574,7 @@
               <p class="card-outcome">→ Native apps &amp; semantic layer on Snowflake</p>
             </article>
             <article class="card partner-card">
-              <div class="card-num">PRT-03 · AI / data</div>
+              <div class="card-num">PRT-03 · Knowledge</div>
               <h3>
                 <a href="https://www.clarifeye.ai/" target="_blank" rel="noopener noreferrer">
                   Clarifeye
@@ -501,10 +582,11 @@
                 </a>
               </h3>
               <p>
-                AI and data intelligence partner when the need is productized insight —
-                turning complex operational data into decisions operators can use.
+                Knowledge-layer partner for GenAI-ready enterprise context — captures expert
+                know-how and unstructured process knowledge so agents and operators share the same
+                ground truth.
               </p>
-              <p class="card-outcome">→ Insight systems, not just models</p>
+              <p class="card-outcome">→ Expert context, not just models</p>
             </article>
           </div>
         </div>
