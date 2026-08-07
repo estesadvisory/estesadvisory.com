@@ -76,6 +76,7 @@
     "engagements",
     "partners",
     "contact",
+    "privacy",
   ];
   const navLinks = document.querySelectorAll(
     '.nav-desktop a[href^="#"], .mobile-nav a[href^="#"]'
