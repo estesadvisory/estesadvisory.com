@@ -56,9 +56,7 @@ jobs:
             --include "css/*" \
             --include "js/*" \
             --include "assets/*" \
-            --include "ops/*" \
-            --include "ops/*/*" \
-            --include "ops/*/*/*" \
+
             --include "robots.txt" \
             --include "sitemap.xml" \
             --include "favicon.ico" \

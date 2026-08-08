@@ -61,9 +61,8 @@ SITE_SYNC_EXCLUDES := \
 	--include "css/*" \
 	--include "js/*" \
 	--include "assets/*" \
-	--include "ops/*" \
-	--include "ops/*/*" \
-	--include "ops/*/*/*" \
+	# ops/* gated: enable after terraform ops Basic Auth is applied (docs/OPS_DASHBOARD.md)
+	# --include "ops/*" \
 	--include "robots.txt" \
 	--include "sitemap.xml" \
 	--include "favicon.ico" \
