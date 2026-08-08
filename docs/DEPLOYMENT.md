@@ -139,7 +139,8 @@ Allowlisted paths only (everything else is ignored and removed from the bucket v
 
 - `*.html` (e.g. `index.html`, `book.html`, `404.html`)
 - `css/*`, `js/*`, `assets/*`
-- `robots.txt`, `sitemap.xml`
+- `robots.txt`, `sitemap.xml`, `favicon.ico`, `site.webmanifest`
+- **`ops/**`** only when `OPS_SYNC=1` (laptop) or repo var `OPS_SYNC=true` (Actions) — private dashboard after CloudFront Basic Auth; see [OPS_DASHBOARD.md](./OPS_DASHBOARD.md)
 
 Not uploaded: `terraform/`, `Makefile`, `README.md`, `docs/`, `.git/`, `.github/`, env/secret files, etc.
 
