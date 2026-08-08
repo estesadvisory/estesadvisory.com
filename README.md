@@ -60,3 +60,13 @@ Update the [company page](https://www.linkedin.com/company/estes-advisory/) and 
 ## Tracking
 
 Epic [#4](https://github.com/estesadvisory/estesadvisory.com/issues/4) — closed (production site shipped). New work: open focused issues as needed.
+
+## Private portfolio ops dashboard
+
+Internal dashboard at **`/ops/`** (Basic Auth, no public links). See [docs/OPS_DASHBOARD.md](docs/OPS_DASHBOARD.md).
+
+```bash
+make ops-data     # sync scoreboards from ../portfolio-ops
+make deploy-ops   # data + S3 + CloudFront (AWS SSO)
+make ops-password # print Basic Auth credentials from Secrets Manager
+```

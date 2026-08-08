@@ -6,6 +6,10 @@ terraform {
       source  = "hashicorp/aws"
       version = ">= 5.80.0"
     }
+    random = {
+      source  = "hashicorp/random"
+      version = ">= 3.6.0"
+    }
   }
 
   # Remote state + DynamoDB lock (#12). Bootstrap bucket/table once via terraform/bootstrap/.

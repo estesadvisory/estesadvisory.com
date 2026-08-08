@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow, noarchive" />
+  <meta name="referrer" content="no-referrer" />
+  <title>Portfolio Ops · Estes Advisory</title>
+  <link rel="stylesheet" href="css/dashboard.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked@15.0.6/marked.min.js" defer></script>
+  <script src="js/dashboard.js" defer></script>
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <div class="brand">
+        <span class="mark">EA</span>
+        <div>
+          <div class="title">Portfolio Ops</div>
+          <div class="subtitle">Internal scoreboard · no public links</div>
+        </div>
+      </div>
+      <div class="topbar-meta">
+        <label class="week-label">
+          Week
+          <select id="week-select" aria-label="Select report week"></select>
+        </label>
+        <span id="status-pill" class="pill pill-muted">Loading…</span>
+      </div>
+    </header>
+
+    <main>
+      <section class="kpis" id="kpis" aria-label="Key metrics"></section>
+
+      <section class="grid-2">
+        <article class="card">
+          <h2>Commits by repo</h2>
+          <div class="chart-wrap">
+            <canvas id="chart-commits" height="220"></canvas>
+          </div>
+        </article>
+        <article class="card">
+          <h2>Closed issues by category</h2>
+          <div class="chart-wrap">
+            <canvas id="chart-categories" height="220"></canvas>
+          </div>
+        </article>
+      </section>
+
+      <section class="grid-2">
+        <article class="card">
+          <h2>PRs merged by repo</h2>
+          <div class="chart-wrap">
+            <canvas id="chart-prs" height="220"></canvas>
+          </div>
+        </article>
+        <article class="card">
+          <h2>Repo activity table</h2>
+          <div class="table-wrap">
+            <table id="repo-table">
+              <thead>
+                <tr>
+                  <th>Repo</th>
+                  <th class="num">Commits</th>
+                  <th class="num">Issues +</th>
+                  <th class="num">Issues −</th>
+                  <th class="num">PRs</th>
+                  <th class="num">Open</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </article>
+      </section>
+
+      <section class="card">
+        <div class="card-head">
+          <h2>Narrative report</h2>
+          <span id="report-source" class="muted"></span>
+        </div>
+        <div id="report-md" class="prose">Loading markdown…</div>
+      </section>
+    </main>
+
+    <footer class="foot">
+      <span>Estes Advisory · private path <code>/ops/</code> · Basic Auth · no cookies</span>
+      <span id="generated-at" class="muted"></span>
+    </footer>
+  </div>
+</body>
+</html>

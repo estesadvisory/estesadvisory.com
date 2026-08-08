@@ -42,3 +42,18 @@ output "gha_site_deploy_role_arn" {
   description = "IAM role ARN for GitHub Actions OIDC content deploys."
   value       = aws_iam_role.gha_site_deploy.arn
 }
+
+output "ops_dashboard_url" {
+  description = "Private portfolio dashboard URL (HTTP Basic Auth; no public links)."
+  value       = var.ops_dashboard_enabled ? "https://${var.domain_name}/ops/" : null
+}
+
+output "ops_dashboard_secret_arn" {
+  description = "Secrets Manager ARN for ops Basic Auth credentials."
+  value       = var.ops_dashboard_enabled ? aws_secretsmanager_secret.ops_dashboard.arn : null
+}
+
+output "ops_dashboard_username" {
+  description = "Basic Auth username for /ops/."
+  value       = var.ops_dashboard_enabled ? var.ops_basic_username : null
+}

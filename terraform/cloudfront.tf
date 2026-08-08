@@ -115,6 +115,28 @@ resource "aws_cloudfront_distribution" "site" {
     }
   }
 
+  # Private portfolio dashboard — Basic Auth, no cookies, no public nav links.
+  # Two patterns: /ops and /ops/* (CloudFront does not match both with one pattern).
+  dynamic "ordered_cache_behavior" {
+    for_each = var.ops_dashboard_enabled ? toset(["ops", "ops/*"]) : toset([])
+    content {
+      path_pattern               = ordered_cache_behavior.value
+      allowed_methods            = ["GET", "HEAD", "OPTIONS"]
+      cached_methods             = ["GET", "HEAD"]
+      target_origin_id           = local.s3_origin_id
+      viewer_protocol_policy     = "redirect-to-https"
+      compress                   = true
+      cache_policy_id            = data.aws_cloudfront_cache_policy.caching_disabled.id
+      origin_request_policy_id   = data.aws_cloudfront_origin_request_policy.cors_s3.id
+      response_headers_policy_id = aws_cloudfront_response_headers_policy.security.id
+
+      function_association {
+        event_type   = "viewer-request"
+        function_arn = aws_cloudfront_function.ops_basic_auth.arn
+      }
+    }
+  }
+
   # Multi-page static site: serve a real 404 page (not SPA rewrite).
   custom_error_response {
     error_code            = 403

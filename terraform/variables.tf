@@ -69,3 +69,15 @@ variable "github_repository" {
   type        = string
   default     = "estesadvisory/estesadvisory.com"
 }
+
+variable "ops_basic_username" {
+  description = "HTTP Basic Auth username for the private /ops/ portfolio dashboard."
+  type        = string
+  default     = "mike"
+}
+
+variable "ops_dashboard_enabled" {
+  description = "Attach CloudFront behaviors for /ops with Basic Auth."
+  type        = bool
+  default     = true
+}

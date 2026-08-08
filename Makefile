@@ -61,10 +61,15 @@ SITE_SYNC_EXCLUDES := \
 	--include "css/*" \
 	--include "js/*" \
 	--include "assets/*" \
+	--include "ops/*" \
+	--include "ops/*/*" \
+	--include "ops/*/*/*" \
 	--include "robots.txt" \
 	--include "sitemap.xml" \
 	--include "favicon.ico" \
 	--include "site.webmanifest"
+
+PORTFOLIO_OPS_ROOT ?= $(abspath $(SITE_ROOT)/../portfolio-ops)
 
 .PHONY: stamp
 stamp: ## Stamp footer build id (git SHA + UTC) into index.html
@@ -106,7 +111,47 @@ sync: stamp ## Stamp build id, then sync allowlisted files to S3
 	    --cache-control "public,max-age=300,must-revalidate" \
 	    --content-type "application/javascript; charset=utf-8"; \
 	fi
+	@if [ -d "$(SITE_ROOT)/ops" ]; then \
+	  aws s3 cp s3://$(BUCKET)/ops/ s3://$(BUCKET)/ops/ --recursive \
+	    --exclude "*" --include "*.html" \
+	    --metadata-directive REPLACE \
+	    --cache-control "private,no-store" \
+	    --content-type "text/html; charset=utf-8"; \
+	  aws s3 cp s3://$(BUCKET)/ops/ s3://$(BUCKET)/ops/ --recursive \
+	    --exclude "*" --include "*.css" \
+	    --metadata-directive REPLACE \
+	    --cache-control "private,no-store" \
+	    --content-type "text/css; charset=utf-8"; \
+	  aws s3 cp s3://$(BUCKET)/ops/ s3://$(BUCKET)/ops/ --recursive \
+	    --exclude "*" --include "*.js" \
+	    --metadata-directive REPLACE \
+	    --cache-control "private,no-store" \
+	    --content-type "application/javascript; charset=utf-8"; \
+	  aws s3 cp s3://$(BUCKET)/ops/ s3://$(BUCKET)/ops/ --recursive \
+	    --exclude "*" --include "*.json" \
+	    --metadata-directive REPLACE \
+	    --cache-control "private,no-store" \
+	    --content-type "application/json; charset=utf-8"; \
+	  aws s3 cp s3://$(BUCKET)/ops/ s3://$(BUCKET)/ops/ --recursive \
+	    --exclude "*" --include "*.md" \
+	    --metadata-directive REPLACE \
+	    --cache-control "private,no-store" \
+	    --content-type "text/markdown; charset=utf-8"; \
+	fi
 	@echo "Synced allowlisted paths to s3://$(BUCKET)/"
+
+.PHONY: ops-data
+ops-data: ## Copy portfolio-ops scoreboard JSON/MD into ops/ for the dashboard
+	PORTFOLIO_OPS_ROOT="$(PORTFOLIO_OPS_ROOT)" bash scripts/sync-ops-data.sh
+
+.PHONY: ops-password
+ops-password: ## Print ops Basic Auth credentials from Secrets Manager
+	@aws secretsmanager get-secret-value \
+	  --secret-id estesadvisory-com/ops-dashboard-basic \
+	  --query SecretString --output text | python3 -m json.tool
+
+.PHONY: deploy-ops
+deploy-ops: ops-data deploy ## Refresh ops data from portfolio-ops, then full site deploy
 
 .PHONY: invalidate
 invalidate: ## CloudFront invalidation for /*
@@ -119,7 +164,7 @@ deploy: sync invalidate ## Sync site content + invalidate CDN
 	@echo "Deployed. Site: $(SITE_URL)"
 
 .PHONY: smoke
-smoke: ## Quick HTTPS smoke checks
+smoke: ## Quick HTTPS smoke checks (includes /ops auth probe)
 	@url="$(SITE_URL)"; \
 	test -n "$$url" || url="https://estesadvisory.com"; \
 	echo "GET $$url"; \
@@ -127,7 +172,8 @@ smoke: ## Quick HTTPS smoke checks
 	curl -sS -o /dev/null -w "  http→ %{http_code}  loc=%{redirect_url}\n" --max-redirs 0 "http://estesadvisory.com/" || true; \
 	curl -sS -o /dev/null -w "  www→  %{http_code}  loc=%{redirect_url}\n" --max-redirs 0 "https://www.estesadvisory.com/" || true; \
 	curl -sS -o /dev/null -w "  book  %{http_code}\n" "https://estesadvisory.com/book.html" || true; \
-	curl -sS -o /dev/null -w "  css   %{http_code}\n" "https://estesadvisory.com/css/styles.css" || true
+	curl -sS -o /dev/null -w "  css   %{http_code}\n" "https://estesadvisory.com/css/styles.css" || true; \
+	curl -sS -o /dev/null -w "  ops   %{http_code} (expect 401 without auth)\n" "https://estesadvisory.com/ops/" || true
 
 .PHONY: status
 status: ## Print bucket / distribution / URL

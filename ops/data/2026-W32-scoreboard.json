@@ -1,0 +1,472 @@
+{
+  "schema_version": "1.2",
+  "report_id": "2026-W32-scoreboard",
+  "generated_at": "2026-08-08T12:41:14.286212+00:00",
+  "windows": {
+    "calendar_week": {
+      "id": "2026-W32",
+      "start": "2026-08-03",
+      "end": "2026-08-09"
+    },
+    "work_week_note": "Mon\u2013Fri is a subset of calendar week; filter active_day_list if needed"
+  },
+  "repos": {
+    "artifactum": {
+      "git": {
+        "source": "github_api",
+        "remote": "https://github.com/estesadvisory/artifactum.git",
+        "commits_window": 97,
+        "active_days": 4,
+        "active_day_list": [
+          "2026-08-03",
+          "2026-08-04",
+          "2026-08-07",
+          "2026-08-08"
+        ],
+        "authors": [
+          "Estes Advisory LLC",
+          "Mike Estes"
+        ],
+        "commits_with_refs_or_pr": 89,
+        "first_commit": null,
+        "last_commit": "a5a36bf Merge pull request #142 from estesadvisory/docs/agents-portfolio-hub-pointer",
+        "commits_all_time": null
+      },
+      "github": {
+        "issues_open": 7,
+        "issues_created_week": 56,
+        "issues_closed_week": 85,
+        "closed_by_category": {
+          "docs": 5,
+          "feature": 28,
+          "qol": 3,
+          "ops": 14,
+          "security": 20,
+          "bug": 2,
+          "other": 13
+        },
+        "prs_merged_week": 44,
+        "pr_additions_week": 11927,
+        "pr_deletions_week": 1475,
+        "sample_closed": [
+          {
+            "number": 130,
+            "title": "[P3] Document storage/index backend port seam (future multi-cloud)",
+            "category": "docs"
+          },
+          {
+            "number": 129,
+            "title": "[P3] MCP undelete / restore for soft-deleted Content Objects",
+            "category": "feature"
+          },
+          {
+            "number": 127,
+            "title": "[P3] Evaluate S3 Intelligent-Tiering for artifactum-content-prod",
+            "category": "ops"
+          },
+          {
+            "number": 128,
+            "title": "[P3] Noncurrent S3 version expiration (versioning hygiene)",
+            "category": "qol"
+          },
+          {
+            "number": 126,
+            "title": "[P2] Sensitive-namespace delete safeguards (legal/Admin/tax)",
+            "category": "security"
+          },
+          {
+            "number": 65,
+            "title": "[P3] Review/prune Content Objects with empty S3 bodies (size_bytes 0 and ContentLength 0)",
+            "category": "other"
+          },
+          {
+            "number": 122,
+            "title": "[P2] Case-sensitive logical keys: list/get UX when prefix or key case differs",
+            "category": "feature"
+          },
+          {
+            "number": 123,
+            "title": "[P3] Verification matrix: assert guidance self-name matches FastMCP server name",
+            "category": "ops"
+          },
+          {
+            "number": 121,
+            "title": "[P3] Inventory dual-case Content Object key families (EstesAdvisory vs estesadvisory)",
+            "category": "ops"
+          },
+          {
+            "number": 118,
+            "title": "[P1] AWS rename H: teardown all obsolete grok-* artifacts",
+            "category": "security"
+          }
+        ]
+      }
+    },
+    "artifactum.ai": {
+      "git": {
+        "source": "github_api",
+        "remote": "https://github.com/estesadvisory/artifactum.ai.git",
+        "commits_window": 18,
+        "active_days": 2,
+        "active_day_list": [
+          "2026-08-07",
+          "2026-08-08"
+        ],
+        "authors": [
+          "Estes Advisory LLC",
+          "Mike Estes"
+        ],
+        "commits_with_refs_or_pr": 3,
+        "first_commit": null,
+        "last_commit": "40247e0 Merge pull request #10 from estesadvisory/fix/oidc-private-sub",
+        "commits_all_time": null
+      },
+      "github": {
+        "issues_open": 1,
+        "issues_created_week": 1,
+        "issues_closed_week": 0,
+        "closed_by_category": {},
+        "prs_merged_week": 9,
+        "pr_additions_week": 809,
+        "pr_deletions_week": 253,
+        "sample_closed": []
+      }
+    },
+    "estesadvisory.com": {
+      "git": {
+        "source": "github_api",
+        "remote": "https://github.com/estesadvisory/estesadvisory.com.git",
+        "commits_window": 52,
+        "active_days": 4,
+        "active_day_list": [
+          "2026-08-04",
+          "2026-08-06",
+          "2026-08-07",
+          "2026-08-08"
+        ],
+        "authors": [
+          "Estes Advisory",
+          "Estes Advisory LLC",
+          "Mike Estes"
+        ],
+        "commits_with_refs_or_pr": 6,
+        "first_commit": null,
+        "last_commit": "66485f3 Merge pull request #58 from estesadvisory/docs/agents-portfolio-surface",
+        "commits_all_time": null
+      },
+      "github": {
+        "issues_open": 0,
+        "issues_created_week": 38,
+        "issues_closed_week": 38,
+        "closed_by_category": {
+          "qol": 3,
+          "ops": 11,
+          "feature": 15,
+          "docs": 6,
+          "bug": 2,
+          "security": 1
+        },
+        "prs_merged_week": 19,
+        "pr_additions_week": 2428,
+        "pr_deletions_week": 203,
+        "sample_closed": [
+          {
+            "number": 45,
+            "title": "ops: make merge\u2192Actions Deploy site reliable (queue timeouts, missing push runs)",
+            "category": "ops"
+          },
+          {
+            "number": 42,
+            "title": "a11y: contrast, focus, mobile menu audit",
+            "category": "qol"
+          },
+          {
+            "number": 36,
+            "title": "content: trust block (case study / testimonial / engagement shapes)",
+            "category": "feature"
+          },
+          {
+            "number": 34,
+            "title": "content: partners section accuracy/freshness pass",
+            "category": "feature"
+          },
+          {
+            "number": 41,
+            "title": "content: tighten service cards with concrete outcomes",
+            "category": "feature"
+          },
+          {
+            "number": 39,
+            "title": "content: brand-aligned 404 with optional build-id",
+            "category": "feature"
+          },
+          {
+            "number": 38,
+            "title": "ops: disable GitHub Pages deploys if unused (CloudFront is canonical)",
+            "category": "ops"
+          },
+          {
+            "number": 37,
+            "title": "content: contact availability/timezone line",
+            "category": "feature"
+          },
+          {
+            "number": 40,
+            "title": "seo: absolute og:image URL + sitemap hygiene",
+            "category": "qol"
+          },
+          {
+            "number": 47,
+            "title": "feat: Plausible Analytics (privacy-first, no GA)",
+            "category": "qol"
+          }
+        ]
+      }
+    },
+    "ScopeHawk": {
+      "git": {
+        "source": "github_api",
+        "remote": "https://github.com/estesadvisory/ScopeHawk.git",
+        "commits_window": 17,
+        "active_days": 2,
+        "active_day_list": [
+          "2026-08-07",
+          "2026-08-08"
+        ],
+        "authors": [
+          "Estes Advisory LLC",
+          "Mike Estes"
+        ],
+        "commits_with_refs_or_pr": 0,
+        "first_commit": null,
+        "last_commit": "b31a643 Merge pull request #7 from estesadvisory/docs/session-harvest-pointer",
+        "commits_all_time": null
+      },
+      "github": {
+        "issues_open": 4,
+        "issues_created_week": 5,
+        "issues_closed_week": 1,
+        "closed_by_category": {
+          "docs": 1
+        },
+        "prs_merged_week": 2,
+        "pr_additions_week": 6,
+        "pr_deletions_week": 0,
+        "sample_closed": [
+          {
+            "number": 5,
+            "title": "[expansion] Kameron handoff: choose packaging strategy A\u2013D + PDF",
+            "category": "docs"
+          }
+        ]
+      }
+    },
+    "LHB": {
+      "git": {
+        "source": "github_api",
+        "remote": "https://github.com/estesadvisory/LHB.git",
+        "commits_window": 8,
+        "active_days": 2,
+        "active_day_list": [
+          "2026-08-07",
+          "2026-08-08"
+        ],
+        "authors": [
+          "Estes Advisory LLC"
+        ],
+        "commits_with_refs_or_pr": 0,
+        "first_commit": null,
+        "last_commit": "094ced1 Merge pull request #3 from estesadvisory/docs/session-harvest-pointer",
+        "commits_all_time": null
+      },
+      "github": {
+        "issues_open": 0,
+        "issues_created_week": 1,
+        "issues_closed_week": 1,
+        "closed_by_category": {
+          "legal": 1
+        },
+        "prs_merged_week": 2,
+        "pr_additions_week": 6,
+        "pr_deletions_week": 0,
+        "sample_closed": [
+          {
+            "number": 1,
+            "title": "Mutual NDA + IP Agreement fully executed (2026-08-07)",
+            "category": "legal"
+          }
+        ]
+      }
+    },
+    "mcp-ig-extension": {
+      "git": {
+        "source": "github_api",
+        "remote": "https://github.com/estesadvisory/mcp-ig-extension.git",
+        "commits_window": 2,
+        "active_days": 1,
+        "active_day_list": [
+          "2026-08-08"
+        ],
+        "authors": [
+          "Estes Advisory LLC"
+        ],
+        "commits_with_refs_or_pr": 0,
+        "first_commit": null,
+        "last_commit": "1dd148d Merge pull request #1 from estesadvisory/docs/agents-portfolio-surface",
+        "commits_all_time": null
+      },
+      "github": {
+        "issues_open": 1,
+        "issues_created_week": 1,
+        "issues_closed_week": 0,
+        "closed_by_category": {},
+        "prs_merged_week": 1,
+        "pr_additions_week": 39,
+        "pr_deletions_week": 0,
+        "sample_closed": []
+      }
+    },
+    "portfolio-ops": {
+      "git": {
+        "source": "github_api",
+        "remote": "https://github.com/estesadvisory/portfolio-ops.git",
+        "commits_window": 23,
+        "active_days": 2,
+        "active_day_list": [
+          "2026-08-07",
+          "2026-08-08"
+        ],
+        "authors": [
+          "Estes Advisory LLC",
+          "Mike Estes",
+          "github-actions[bot]"
+        ],
+        "commits_with_refs_or_pr": 8,
+        "first_commit": null,
+        "last_commit": "6e22730 fix(ci): surface xAI team credits failure (not just ACL)",
+        "commits_all_time": null
+      },
+      "github": {
+        "issues_open": 2,
+        "issues_created_week": 15,
+        "issues_closed_week": 13,
+        "closed_by_category": {
+          "ops": 6,
+          "other": 2,
+          "process": 3,
+          "security": 1,
+          "docs": 1
+        },
+        "prs_merged_week": 0,
+        "pr_additions_week": 0,
+        "pr_deletions_week": 0,
+        "sample_closed": [
+          {
+            "number": 13,
+            "title": "[P2] IN PROGRESS: multi-repo program \u2014 unify after P0",
+            "category": "ops"
+          },
+          {
+            "number": 9,
+            "title": "[P3 / parked] Stage 3: anti-leapfrog operating model (membership, shared packages, automation)",
+            "category": "process"
+          },
+          {
+            "number": 1,
+            "title": "[P2] Pass 1 baseline accepted: refine W32 report + metrics (Layer C human pass)",
+            "category": "docs"
+          },
+          {
+            "number": 12,
+            "title": "[P2] Human impact scoring pass on W32 top shipped items",
+            "category": "other"
+          },
+          {
+            "number": 11,
+            "title": "[P2] Session harvest protocol (MCP summaries; not full chat dump)",
+            "category": "ops"
+          },
+          {
+            "number": 8,
+            "title": "[P3] Weekly portfolio report automation (Layer A/B tables)",
+            "category": "ops"
+          },
+          {
+            "number": 5,
+            "title": "[P2] artifactum.ai: stop PR-only tracking \u2014 use issues for remaining work",
+            "category": "ops"
+          },
+          {
+            "number": 10,
+            "title": "[P1] Dual-write portfolio reports/data/visuals to Artifactum MCP",
+            "category": "ops"
+          },
+          {
+            "number": 7,
+            "title": "[P2] Site twin parity: artifactum.ai deploy path vs estesadvisory.com",
+            "category": "ops"
+          },
+          {
+            "number": 6,
+            "title": "[P2] mcp-ig-extension: park or revive + Artifactum rename awareness",
+            "category": "process"
+          }
+        ]
+      }
+    }
+  },
+  "portfolio_totals": {
+    "commits_week": 217,
+    "issues_created_week": 117,
+    "issues_closed_week": 138,
+    "prs_merged_week": 77,
+    "closed_by_category_week": {
+      "docs": 13,
+      "feature": 43,
+      "qol": 6,
+      "ops": 31,
+      "security": 22,
+      "bug": 4,
+      "other": 15,
+      "legal": 1,
+      "process": 3
+    },
+    "zero_touch_repos": []
+  },
+  "mcp_dual_write": {
+    "report_key": "EstesAdvisory.portfolio-ops.reports.2026-W32-scoreboard",
+    "data_key": "EstesAdvisory.portfolio-ops.data.2026-W32-scoreboard",
+    "instruction": "After reviewing JSON, store report md + this JSON via Artifactum MCP (see docs/MCP.md)"
+  },
+  "viz": {
+    "commits_week_by_repo": {
+      "artifactum": 97,
+      "artifactum.ai": 18,
+      "estesadvisory.com": 52,
+      "ScopeHawk": 17,
+      "LHB": 8,
+      "mcp-ig-extension": 2,
+      "portfolio-ops": 23
+    },
+    "closed_issues_by_category": {
+      "docs": 13,
+      "feature": 43,
+      "qol": 6,
+      "ops": 31,
+      "security": 22,
+      "bug": 4,
+      "other": 15,
+      "legal": 1,
+      "process": 3
+    },
+    "prs_merged_week_by_repo": {
+      "artifactum": 44,
+      "artifactum.ai": 9,
+      "estesadvisory.com": 19,
+      "ScopeHawk": 2,
+      "LHB": 2,
+      "mcp-ig-extension": 1,
+      "portfolio-ops": 0
+    }
+  }
+}

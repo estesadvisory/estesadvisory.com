@@ -56,6 +56,9 @@ jobs:
             --include "css/*" \
             --include "js/*" \
             --include "assets/*" \
+            --include "ops/*" \
+            --include "ops/*/*" \
+            --include "ops/*/*/*" \
             --include "robots.txt" \
             --include "sitemap.xml" \
             --include "favicon.ico" \
@@ -90,6 +93,35 @@ jobs:
               --metadata-directive REPLACE \
               --cache-control "public,max-age=300,must-revalidate" \
               --content-type "application/javascript; charset=utf-8"
+          fi
+
+          # Private /ops dashboard — no-store cache metadata on origin objects
+          if [ -d ops ]; then
+            aws s3 cp "s3://${SITE_BUCKET}/ops/" "s3://${SITE_BUCKET}/ops/" --recursive \
+              --exclude "*" --include "*.html" \
+              --metadata-directive REPLACE \
+              --cache-control "private,no-store" \
+              --content-type "text/html; charset=utf-8"
+            aws s3 cp "s3://${SITE_BUCKET}/ops/" "s3://${SITE_BUCKET}/ops/" --recursive \
+              --exclude "*" --include "*.css" \
+              --metadata-directive REPLACE \
+              --cache-control "private,no-store" \
+              --content-type "text/css; charset=utf-8"
+            aws s3 cp "s3://${SITE_BUCKET}/ops/" "s3://${SITE_BUCKET}/ops/" --recursive \
+              --exclude "*" --include "*.js" \
+              --metadata-directive REPLACE \
+              --cache-control "private,no-store" \
+              --content-type "application/javascript; charset=utf-8"
+            aws s3 cp "s3://${SITE_BUCKET}/ops/" "s3://${SITE_BUCKET}/ops/" --recursive \
+              --exclude "*" --include "*.json" \
+              --metadata-directive REPLACE \
+              --cache-control "private,no-store" \
+              --content-type "application/json; charset=utf-8"
+            aws s3 cp "s3://${SITE_BUCKET}/ops/" "s3://${SITE_BUCKET}/ops/" --recursive \
+              --exclude "*" --include "*.md" \
+              --metadata-directive REPLACE \
+              --cache-control "private,no-store" \
+              --content-type "text/markdown; charset=utf-8"
           fi
 
           # Correct types for root favicon / manifest when present
