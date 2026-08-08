@@ -55,18 +55,28 @@ tf-output: ## Show terraform outputs
 
 # Site content allowlist only — never sync repo/tooling paths into the origin bucket (#20).
 # BUCKET must come from terraform output (make status); do not override to a non-site bucket.
+# OPS_SYNC=1 after terraform ops Basic Auth is live (otherwise ops/*.html would be public).
+OPS_SYNC ?= 0
 SITE_SYNC_EXCLUDES := \
 	--exclude "*" \
 	--include "*.html" \
 	--include "css/*" \
 	--include "js/*" \
 	--include "assets/*" \
-	# ops/* gated: enable after terraform ops Basic Auth is applied (docs/OPS_DASHBOARD.md)
-	# --include "ops/*" \
 	--include "robots.txt" \
 	--include "sitemap.xml" \
 	--include "favicon.ico" \
-	--include "site.webmanifest"
+	--include "site.webmanifest" \
+	--exclude "ops/*" \
+	--exclude "ops/*/*" \
+	--exclude "ops/*/*/*"
+
+ifeq ($(OPS_SYNC),1)
+SITE_SYNC_EXCLUDES += \
+	--include "ops/*" \
+	--include "ops/*/*" \
+	--include "ops/*/*/*"
+endif
 
 PORTFOLIO_OPS_ROOT ?= $(abspath $(SITE_ROOT)/../portfolio-ops)
 
@@ -150,7 +160,8 @@ ops-password: ## Print ops Basic Auth credentials from Secrets Manager
 	  --query SecretString --output text | python3 -m json.tool
 
 .PHONY: deploy-ops
-deploy-ops: ops-data deploy ## Refresh ops data from portfolio-ops, then full site deploy
+deploy-ops: ops-data ## Refresh ops data + deploy with OPS_SYNC=1 (requires CF Basic Auth live)
+	$(MAKE) deploy OPS_SYNC=1
 
 .PHONY: invalidate
 invalidate: ## CloudFront invalidation for /*

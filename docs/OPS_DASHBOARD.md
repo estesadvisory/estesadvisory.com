@@ -17,6 +17,16 @@ Internal business dashboard on the production apex domain. **Not linked** from t
 - `robots.txt` disallows `/ops`; page has `noindex,nofollow`.
 - Do not add nav links from `index.html` / sitemap.
 
+## Deploy gate
+
+Content under `ops/` is **excluded** from S3 sync until:
+
+1. Terraform ops Basic Auth is applied (`make tf-apply`)
+2. Laptop: `make deploy-ops` (sets `OPS_SYNC=1`)
+3. Actions: repo variable `OPS_SYNC=true` on `estesadvisory/estesadvisory.com`
+
+Without the gate, `*.html` would publish `ops/index.html` publicly.
+
 ## Refresh data
 
 ```bash

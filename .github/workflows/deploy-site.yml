@@ -49,6 +49,11 @@ jobs:
       - name: Sync allowlisted site files to S3
         run: |
           set -euo pipefail
+          # Exclude ops/* by default (private dashboard). Set repo var OPS_SYNC=true after CF Basic Auth.
+          OPS_EXTRA=()
+          if [ "${{ vars.OPS_SYNC }}" = "true" ]; then
+            OPS_EXTRA=(--include "ops/*" --include "ops/*/*" --include "ops/*/*/*")
+          fi
           aws s3 sync ./ "s3://${SITE_BUCKET}/" \
             --delete \
             --exclude "*" \
@@ -56,11 +61,14 @@ jobs:
             --include "css/*" \
             --include "js/*" \
             --include "assets/*" \
-
             --include "robots.txt" \
             --include "sitemap.xml" \
             --include "favicon.ico" \
             --include "site.webmanifest" \
+            --exclude "ops/*" \
+            --exclude "ops/*/*" \
+            --exclude "ops/*/*/*" \
+            "${OPS_EXTRA[@]}" \
             --cache-control "public,max-age=300,must-revalidate"
 
           aws s3 cp "s3://${SITE_BUCKET}/" "s3://${SITE_BUCKET}/" --recursive \
@@ -93,8 +101,8 @@ jobs:
               --content-type "application/javascript; charset=utf-8"
           fi
 
-          # Private /ops dashboard — no-store cache metadata on origin objects
-          if [ -d ops ]; then
+          # Private /ops dashboard — only when OPS_SYNC=true (after CF Basic Auth)
+          if [ "${{ vars.OPS_SYNC }}" = "true" ] && [ -d ops ]; then
             aws s3 cp "s3://${SITE_BUCKET}/ops/" "s3://${SITE_BUCKET}/ops/" --recursive \
               --exclude "*" --include "*.html" \
               --metadata-directive REPLACE \
