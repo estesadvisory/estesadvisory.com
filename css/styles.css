@@ -1038,6 +1038,36 @@ body.nav-open {
   user-select: none;
 }
 
+/* Clickable logo chips (products, partners, customers) */
+a.entity-logo-link {
+  text-decoration: none;
+  color: inherit;
+  transition:
+    border-color var(--motion-fast, 0.15s) var(--ease, ease),
+    box-shadow var(--motion-fast, 0.15s) var(--ease, ease),
+    transform var(--motion-fast, 0.15s) var(--ease, ease);
+}
+
+a.entity-logo-link:hover {
+  border-color: var(--blue-strong, #1d4ed8);
+  box-shadow: 0 0 0 1px rgba(29, 78, 216, 0.15);
+  transform: translateY(-1px);
+}
+
+a.entity-logo-link:focus-visible {
+  outline: 2px solid var(--blue-strong, #1d4ed8);
+  outline-offset: 2px;
+}
+
+/* Also make partner/customer logos clickable via wrapping h3 pattern below */
+.partner-card .entity-logo a,
+.product-card .entity-logo a {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
 .cta-band {
   border: 1px solid var(--blue-line-mid);
   background:
