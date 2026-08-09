@@ -983,6 +983,61 @@ body.nav-open {
   transform: translateX(2px);
 }
 
+/* Partner / customer logos + social links */
+.entity-logo {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: 3.25rem;
+  margin: 0.35rem 0 0.85rem;
+  padding: 0.65rem 0.75rem;
+  border-radius: 10px;
+  border: 1px solid var(--blue-line-soft, rgba(30, 58, 95, 0.12));
+  background: var(--paper-elevated, #fff);
+}
+
+.entity-logo img {
+  display: block;
+  max-height: 2.5rem;
+  width: auto;
+  max-width: 100%;
+  object-fit: contain;
+}
+
+.entity-logo-wide img {
+  max-height: 2.25rem;
+}
+
+/* White / light logos (e.g. Kloudgen wordmark) */
+.entity-logo-dark {
+  background: #0f172a;
+  border-color: #1e293b;
+}
+
+.entity-links {
+  margin: 0.75rem 0 0;
+  font-size: 0.88rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 0.5rem;
+  align-items: center;
+}
+
+.entity-links a {
+  color: var(--blue-strong, #1d4ed8);
+  text-decoration: none;
+  font-weight: 560;
+}
+
+.entity-links a:hover {
+  text-decoration: underline;
+}
+
+.entity-links .sep {
+  color: var(--ink-faint, #94a3b8);
+  user-select: none;
+}
+
 .cta-band {
   border: 1px solid var(--blue-line-mid);
   background:
