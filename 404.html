@@ -13,11 +13,14 @@
     <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
     <link rel="stylesheet" href="/css/styles.css" />
-    <script
-      defer
-      data-domain="estesadvisory.com"
-      src="https://plausible.io/js/script.outbound-links.js"
-    ></script>
+    <!-- Plausible: cookieless (no GA). New tracker. Refs #60 -->
+    <script type="module">
+      import { init } from "https://cdn.jsdelivr.net/npm/@plausible-analytics/tracker@0.4.5/+esm";
+      init({
+        domain: "estesadvisory.com",
+        outboundLinks: true,
+      });
+    </script>
   </head>
   <body class="blueprint-grid-fine">
     <header class="site-header">
@@ -67,7 +70,7 @@
       <div class="wrap">
         <div class="footer-bottom" style="margin-top: 0; border-top: none; padding-top: 0">
           <span>© <span id="y"></span> Estes Advisory LLC</span>
-          <span class="build-id"><!--BUILD_ID-->rev pending · built pending<!--/BUILD_ID--></span>
+          <span class="build-id"><!--BUILD_ID-->rev 3286bef · built 2026-08-09T01:27:11Z<!--/BUILD_ID--></span>
         </div>
       </div>
     </footer>
