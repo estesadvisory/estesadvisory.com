@@ -974,12 +974,60 @@ body.nav-open {
   font-size: 0.88rem;
 }
 
+/* Whole-card primary hit target (title link stretches; nested links stay above) */
+.card.is-clickable {
+  cursor: pointer;
+}
+
+.card.is-clickable .card-stretch-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.card.is-clickable .card-stretch-link::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border-radius: inherit;
+}
+
+.card.is-clickable .card-nested-link {
+  position: relative;
+  z-index: 2;
+}
+
+.card.is-clickable:has(.card-stretch-link:focus-visible) {
+  outline: 2px solid var(--blue-strong, #1d4ed8);
+  outline-offset: 2px;
+}
+
+.product-card h3 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.product-card h3 .card-stretch-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  width: 100%;
+}
+
 .product-card .arrow {
   display: inline-block;
-  transition: transform var(--motion-fast) var(--ease);
+  color: var(--blue-strong);
+  opacity: 0.5;
+  transition:
+    opacity var(--motion-fast) var(--ease),
+    transform var(--motion-fast) var(--ease);
 }
 
 .product-card:hover .arrow {
+  opacity: 1;
   transform: translateX(2px);
 }
 
