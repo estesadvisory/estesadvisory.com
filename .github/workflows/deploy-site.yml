@@ -37,6 +37,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Public brand guard (blocklist)
+        run: bash scripts/brand-guard.sh
+
       - name: Stamp footer build identity
         run: bash scripts/stamp-build.sh
 

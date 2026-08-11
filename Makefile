@@ -80,12 +80,16 @@ endif
 
 PORTFOLIO_OPS_ROOT ?= $(abspath $(SITE_ROOT)/../portfolio-ops)
 
+.PHONY: brand-guard
+brand-guard: ## Fail if public blocklist entities appear on deployable surfaces (#67)
+	@bash scripts/brand-guard.sh
+
 .PHONY: stamp
 stamp: ## Stamp footer build id (git SHA + UTC) into index.html
 	@bash scripts/stamp-build.sh
 
 .PHONY: sync
-sync: stamp ## Stamp build id, then sync allowlisted files to S3
+sync: brand-guard stamp ## Brand guard, stamp build id, then sync allowlisted files to S3
 	@test -n "$(BUCKET)" || (echo "BUCKET empty — run make tf-apply first"; exit 1)
 	# Allowlist + --delete: only known site paths land in the bucket; other keys are removed.
 	# Cache: short TTL without immutable for unfingerprinted paths (#23).
