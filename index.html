@@ -1137,7 +1137,13 @@
         </div>
         <div class="footer-bottom">
           <span>© <span id="y"></span> Estes Advisory LLC. All rights reserved.</span>
-          <span class="build-id"><!--BUILD_ID-->rev 190d4f4 · built 2026-08-10T00:05:57Z<!--/BUILD_ID--></span>
+          <span
+            class="ea-build-id build-id"
+            data-rev="f4799a8"
+            data-built-utc="2026-08-17T18:19:14Z"
+            data-version="2026.8.17.1819"
+            title="Build identity"
+          ><span class="ea-build-id__line"><!--BUILD_ID-->rev f4799a8 · v2026.8.17.1819 · 2026-08-17T18:19:14Z<!--/BUILD_ID--></span></span>
         </div>
       </div>
     </footer>
@@ -1145,6 +1151,7 @@
     <script>
       document.getElementById("y").textContent = new Date().getFullYear();
     </script>
+    <script src="/js/build-id.js" defer></script>
     <script src="/js/main.js" defer></script>
   </body>
 </html>

@@ -248,9 +248,15 @@
       renderKpis(agg);
       renderTable(agg.byRepo);
       renderCharts(agg);
-      els.generatedAt.textContent = agg.generatedAt
-        ? "Data generated " + new Date(agg.generatedAt).toISOString()
-        : "";
+      if (agg.generatedAt) {
+        els.generatedAt.setAttribute("data-generated-utc", agg.generatedAt);
+        els.generatedAt.textContent = "data " + agg.generatedAt;
+        els.generatedAt.title = "Scoreboard data generated (UTC): " + agg.generatedAt;
+        document.dispatchEvent(new Event("ea-data-freshness"));
+      } else {
+        els.generatedAt.textContent = "";
+        els.generatedAt.removeAttribute("data-generated-utc");
+      }
       if (entry.md) await loadMarkdown(entry.md);
       else els.reportMd.innerHTML = "<p class='muted'>No markdown report for this week.</p>";
       setStatus(entry.id + " · ready", "ok");
