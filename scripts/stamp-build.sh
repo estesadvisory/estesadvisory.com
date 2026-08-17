@@ -54,11 +54,11 @@ if pattern.search(text):
         changed = True
 
 # Attribute stamps on .ea-build-id
+# Use \g<n> — \20 is group 20, not group 2 + "0" (corrupts 2026… years).
 def set_attr(html: str, name: str, value: str) -> str:
-    # data-rev="..."
     pat = re.compile(rf'(data-{name}=)(["\'])(.*?)\2')
     if pat.search(html):
-        return pat.sub(rf"\1\2{value}\2", html, count=1)
+        return pat.sub(rf"\g<1>\g<2>{value}\g<2>", html, count=1)
     return html
 
 new_text = text
