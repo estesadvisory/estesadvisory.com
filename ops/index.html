@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="css/dashboard.css" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/marked@15.0.6/marked.min.js" defer></script>
+  <script src="js/build-id.js" defer></script>
   <script src="js/dashboard.js" defer></script>
 </head>
 <body>
@@ -86,7 +87,21 @@
 
     <footer class="foot">
       <span>Estes Advisory · private path <code>/ops/</code> · Basic Auth · no cookies</span>
-      <span id="generated-at" class="muted"></span>
+      <div class="foot-stamps">
+        <span
+          class="ea-build-id"
+          data-rev="b506d2f"
+          data-built-utc=26-08-17T18:08:48Z"
+          data-version=26.8.17.1808"
+          title="Page shell build"
+        >
+          <span class="ea-build-id__line">
+            page
+            <!--BUILD_ID-->rev b506d2f · v2026.8.17.1808 · 2026-08-17T18:08:48Z<!--/BUILD_ID-->
+          </span>
+        </span>
+        <span id="generated-at" class="muted ea-data-freshness" data-generated-utc=""></span>
+      </div>
     </footer>
   </div>
 </body>
