@@ -55,7 +55,14 @@ jobs:
           # Exclude ops/* by default (private dashboard). Set repo var OPS_SYNC=true after CF Basic Auth.
           OPS_EXTRA=()
           if [ "${{ vars.OPS_SYNC }}" = "true" ]; then
-            OPS_EXTRA=(--include "ops/*" --include "ops/*/*" --include "ops/*/*/*")
+            # Shell only — never sync ops/data or ops/reports from git (portfolio-ops#81)
+            OPS_EXTRA=(
+              --include "ops/*.html"
+              --include "ops/css/*"
+              --include "ops/js/*"
+              --include "ops/css/*/*"
+              --include "ops/js/*/*"
+            )
           fi
           aws s3 sync ./ "s3://${SITE_BUCKET}/" \
             --delete \
@@ -121,16 +128,6 @@ jobs:
               --metadata-directive REPLACE \
               --cache-control "private,no-store" \
               --content-type "application/javascript; charset=utf-8"
-            aws s3 cp "s3://${SITE_BUCKET}/ops/" "s3://${SITE_BUCKET}/ops/" --recursive \
-              --exclude "*" --include "*.json" \
-              --metadata-directive REPLACE \
-              --cache-control "private,no-store" \
-              --content-type "application/json; charset=utf-8"
-            aws s3 cp "s3://${SITE_BUCKET}/ops/" "s3://${SITE_BUCKET}/ops/" --recursive \
-              --exclude "*" --include "*.md" \
-              --metadata-directive REPLACE \
-              --cache-control "private,no-store" \
-              --content-type "text/markdown; charset=utf-8"
           fi
 
           # Correct types for root favicon / manifest when present
