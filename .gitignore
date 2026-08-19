@@ -33,3 +33,8 @@ node_modules/
 !.env.op.tpl
 !.env.*.op.tpl
 
+
+# Scoreboard payloads live in portfolio-ops and are published to S3 by hub GHA
+# (portfolio-ops#81). Do not commit — site Deploy must not --delete wipe newer weeks.
+ops/data/
+ops/reports/

@@ -72,10 +72,11 @@ SITE_SYNC_EXCLUDES := \
 	--exclude "ops/*/*/*"
 
 ifeq ($(OPS_SYNC),1)
+# Shell only — scoreboard JSON/MD are published by portfolio-ops (Refs #81)
 SITE_SYNC_EXCLUDES += \
-	--include "ops/*" \
-	--include "ops/*/*" \
-	--include "ops/*/*/*"
+	--include "ops/*.html" \
+	--include "ops/css/*" \
+	--include "ops/js/*"
 endif
 
 PORTFOLIO_OPS_ROOT ?= $(abspath $(SITE_ROOT)/../portfolio-ops)
@@ -124,7 +125,7 @@ sync: brand-guard stamp ## Brand guard, stamp build id, then sync allowlisted fi
 	    --cache-control "public,max-age=300,must-revalidate" \
 	    --content-type "application/javascript; charset=utf-8"; \
 	fi
-	@if [ -d "$(SITE_ROOT)/ops" ]; then \
+	@if [ "$(OPS_SYNC)" = "1" ] && [ -d "$(SITE_ROOT)/ops" ]; then \
 	  aws s3 cp s3://$(BUCKET)/ops/ s3://$(BUCKET)/ops/ --recursive \
 	    --exclude "*" --include "*.html" \
 	    --metadata-directive REPLACE \
@@ -140,21 +141,11 @@ sync: brand-guard stamp ## Brand guard, stamp build id, then sync allowlisted fi
 	    --metadata-directive REPLACE \
 	    --cache-control "private,no-store" \
 	    --content-type "application/javascript; charset=utf-8"; \
-	  aws s3 cp s3://$(BUCKET)/ops/ s3://$(BUCKET)/ops/ --recursive \
-	    --exclude "*" --include "*.json" \
-	    --metadata-directive REPLACE \
-	    --cache-control "private,no-store" \
-	    --content-type "application/json; charset=utf-8"; \
-	  aws s3 cp s3://$(BUCKET)/ops/ s3://$(BUCKET)/ops/ --recursive \
-	    --exclude "*" --include "*.md" \
-	    --metadata-directive REPLACE \
-	    --cache-control "private,no-store" \
-	    --content-type "text/markdown; charset=utf-8"; \
 	fi
 	@echo "Synced allowlisted paths to s3://$(BUCKET)/"
 
 .PHONY: ops-data
-ops-data: ## Copy portfolio-ops scoreboard JSON/MD into ops/ for the dashboard
+ops-data: ## Copy portfolio-ops scoreboard JSON/MD into ops/ for the dashboard (local staging)
 	PORTFOLIO_OPS_ROOT="$(PORTFOLIO_OPS_ROOT)" bash scripts/sync-ops-data.sh
 
 .PHONY: ops-password
@@ -163,9 +154,21 @@ ops-password: ## Print ops Basic Auth credentials from Secrets Manager
 	  --secret-id estesadvisory-com/ops-dashboard-basic \
 	  --query SecretString --output text | python3 -m json.tool
 
+.PHONY: publish-ops-data
+publish-ops-data: ops-data ## Publish ops/data + ops/reports only (does not touch site shell)
+	@test -n "$(BUCKET)" || (echo "BUCKET empty — run make tf-apply first"; exit 1)
+	aws s3 sync $(SITE_ROOT)/ops/data/ s3://$(BUCKET)/ops/data/ \
+	  --delete \
+	  --cache-control "private,no-store" \
+	  --content-type "application/json; charset=utf-8"
+	aws s3 sync $(SITE_ROOT)/ops/reports/ s3://$(BUCKET)/ops/reports/ \
+	  --delete \
+	  --cache-control "private,no-store"
+	@echo "Published ops data to s3://$(BUCKET)/ops/data/"
+
 .PHONY: deploy-ops
-deploy-ops: ops-data ## Refresh ops data + deploy with OPS_SYNC=1 (requires CF Basic Auth live)
-	$(MAKE) deploy OPS_SYNC=1
+deploy-ops: publish-ops-data invalidate ## Publish scoreboard data + invalidate CDN (shell via normal deploy)
+	@echo "Ops data deployed. Dashboard: https://estesadvisory.com/ops/"
 
 .PHONY: invalidate
 invalidate: ## CloudFront invalidation for /*
