@@ -49,12 +49,12 @@ changed = False
 
 pattern = re.compile(r"(<!--BUILD_ID-->)(.*?)(<!--/BUILD_ID-->)", re.DOTALL)
 if pattern.search(text):
-    text, n = pattern.subn(rf"\1{meta}\3", text, count=1)
+    text, n = pattern.subn(rf"\g<1>{meta}\g<3>", text, count=1)
     if n:
         changed = True
 
 # Attribute stamps on .ea-build-id
-# Use \g<n> — \20 is group 20, not group 2 + "0" (corrupts 2026… years).
+# Use \g<n> — bare \1+digit is a multi-digit group (SHA/year traps).
 def set_attr(html: str, name: str, value: str) -> str:
     pat = re.compile(rf'(data-{name}=)(["\'])(.*?)\2')
     if pat.search(html):
@@ -69,21 +69,21 @@ new_text = set_attr(new_text, "version", version)
 # Visible sub-spans if present
 new_text = re.sub(
     r'(class="ea-build-id__rev">)(.*?)(</span>)',
-    rf"\1{rev}\3",
+    rf"\g<1>{rev}\g<3>",
     new_text,
     count=1,
     flags=re.DOTALL,
 )
 new_text = re.sub(
     r'(class="ea-build-id__ver">)(.*?)(</span>)',
-    rf"\1{version}\3",
+    rf"\g<1>{version}\g<3>",
     new_text,
     count=1,
     flags=re.DOTALL,
 )
 new_text = re.sub(
     r'(class="ea-build-id__time"[^>]*datetime=")([^"]*)(">)(.*?)(</time>)',
-    rf"\1{built}\3{built}\5",
+    rf"\g<1>{built}\g<3>{built}\g<5>",
     new_text,
     count=1,
     flags=re.DOTALL,
