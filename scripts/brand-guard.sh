@@ -11,6 +11,7 @@ cd "${ROOT}"
 BLOCK_PATTERNS=(
   'getscopehawk'
   'scopehawk'
+  'getforgelens'
 )
 
 # Deployable paths (must match make deploy / GHA allowlist intent).

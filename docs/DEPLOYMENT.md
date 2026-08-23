@@ -234,11 +234,11 @@ Canonical site: `https://estesadvisory.com`
 
 Privacy-first analytics — **not** Google Analytics ([#47](https://github.com/estesadvisory/estesadvisory.com/issues/47), [#60](https://github.com/estesadvisory/estesadvisory.com/issues/60)).
 
-- **Tracker:** `@plausible-analytics/tracker` (new generation, Oct 2025+) via jsDelivr ESM — not legacy `script.outbound-links.js` / `data-domain`
-- **Init:** `domain: "estesadvisory.com"`, `outboundLinks: true` (pageviews + outbound clicks, e.g. Cal.com)
-- Snippet in `index.html` / `404.html` `<head>`; cookieless / GDPR-friendly by design
+- **Tracker:** official `https://plausible.io/js/script.outbound-links.js` (`data-domain="estesadvisory.com"`) — not jsDelivr, not Google Analytics
+- Snippet in `index.html` / `404.html` / `privacy.html` `<head>`; cookieless / no ad cookies
+- Fonts: self-hosted IBM Plex under `/assets/fonts/` (no Google Fonts)
 
-**Operator setup:** site must exist at [plausible.io](https://plausible.io) with domain exactly `estesadvisory.com`. Optional: use Plausible Site Installation `pa-….js` snippet instead of the ESM package if you prefer first-party verification tooling.
+**Operator setup:** site must exist at [plausible.io](https://plausible.io) with domain exactly `estesadvisory.com`.
 
 CloudFront access logs remain available for server-side traffic forensics (separate from product analytics).
 

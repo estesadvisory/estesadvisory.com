@@ -45,14 +45,12 @@
     <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
     <link rel="stylesheet" href="/css/styles.css" />
-    <!-- Plausible: cookieless (no GA). New tracker (post–Oct 2025); domain must match site settings. Refs #60 -->
-    <script type="module">
-      import { init } from "https://cdn.jsdelivr.net/npm/@plausible-analytics/tracker@0.4.5/+esm";
-      init({
-        domain: "estesadvisory.com",
-        outboundLinks: true,
-      });
-    </script>
+    <!-- Plausible: cookieless (no ad cookies). From plausible.io, not jsDelivr. Refs #76 -->
+    <script
+      defer
+      data-domain="estesadvisory.com"
+      src="https://plausible.io/js/script.outbound-links.js"
+    ></script>
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -72,8 +70,7 @@
               "https://www.linkedin.com/company/estes-advisory/",
               "https://www.linkedin.com/in/mikedestes",
               "https://artifactum.ai/",
-              "https://forgelens.ai/",
-              "https://getforgelens.com/"
+              "https://forgelens.ai/"
             ],
             "founder": { "@id": "https://estesadvisory.com/#person" },
             "areaServed": ["US"]
@@ -547,10 +544,10 @@
                 <span class="sep" aria-hidden="true">·</span>
                 <a
                   class="card-nested-link"
-                  href="https://getforgelens.com/"
+                  href="https://cal.com/estesadvisory"
                   target="_blank"
                   rel="noopener noreferrer"
-                  >Sales site <span class="arrow" aria-hidden="true">→</span></a
+                  >Book a call <span class="arrow" aria-hidden="true">→</span></a
                 >
               </p>
             </article>
@@ -674,7 +671,7 @@
               <div class="card-num">CST-01 · Platform</div>
               <a
                 class="entity-logo entity-logo-link"
-                href="https://lasthouseblock.com/"
+                href="https://gracebridge.vercel.app/"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="The Last House on the Block website"
@@ -689,7 +686,7 @@
                 />
               </a>
               <h3>
-                <a href="https://lasthouseblock.com/" target="_blank" rel="noopener noreferrer">
+                <a href="https://gracebridge.vercel.app/" target="_blank" rel="noopener noreferrer">
                   The Last House on the Block
                   <span class="arrow" aria-hidden="true">→</span>
                 </a>
@@ -701,7 +698,7 @@
               </p>
               <p class="card-outcome">→ Advisory under mutual NDA</p>
               <p class="entity-links">
-                <a href="https://lasthouseblock.com/" target="_blank" rel="noopener noreferrer">Website</a>
+                <a href="https://gracebridge.vercel.app/" target="_blank" rel="noopener noreferrer">Website</a>
               </p>
             </article>
             <article class="card partner-card">
@@ -939,6 +936,39 @@
                 >
               </p>
             </article>
+            <article class="card partner-card">
+              <div class="card-num">PRT-05 · AI security</div>
+              <a
+                class="entity-logo entity-logo-link"
+                href="https://optimoit.io"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Optimo AI website"
+              >
+                <img
+                  src="/assets/partners/optimo-ai.png"
+                  alt="Optimo AI logo"
+                  width="96"
+                  height="96"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </a>
+              <h3>
+                <a href="https://optimoit.io" target="_blank" rel="noopener noreferrer">
+                  Optimo AI LLC
+                  <span class="arrow" aria-hidden="true">→</span>
+                </a>
+              </h3>
+              <p>
+                AI engineering and security partner — vCISO, governance, audit/compliance, and
+                production AI when the work needs security-minded delivery alongside advisory.
+              </p>
+              <p class="card-outcome">→ AI engineering &amp; security (vCISO, governance)</p>
+              <p class="entity-links">
+                <a href="https://optimoit.io" target="_blank" rel="noopener noreferrer">Website</a>
+              </p>
+            </article>
           </div>
         </div>
       </section>
@@ -1031,8 +1061,10 @@
           <div class="body-muted" style="display: grid; gap: 1rem">
             <p style="margin: 0">
               This site is a static brochure. We do
-              <strong>not</strong> set cookies, and we do
+              <strong>not</strong> set advertising cookies, and we do
               <strong>not</strong> use browser local storage or session storage for tracking or ads.
+              We do use cookieless Plausible analytics (a privacy-focused tracker, not an ad pixel).
+              Fonts are self-hosted on this origin (no Google Fonts request).
             </p>
             <p style="margin: 0">
               <strong>Analytics.</strong> We use
