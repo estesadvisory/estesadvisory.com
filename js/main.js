@@ -79,7 +79,7 @@
     toast.setAttribute("aria-live", "polite");
     toast.setAttribute("aria-atomic", "true");
     toast.innerHTML =
-      '<p>No cookies or trackers on this site. <a href="#privacy">Privacy</a></p>' +
+      '<p>Cookieless analytics (Plausible). No ad cookies. <a href="/privacy.html">Privacy</a></p>' +
       '<button type="button" class="privacy-toast-dismiss" aria-label="Dismiss">' +
       "×</button>";
 

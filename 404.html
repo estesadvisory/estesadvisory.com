@@ -13,14 +13,12 @@
     <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
     <link rel="stylesheet" href="/css/styles.css" />
-    <!-- Plausible: cookieless (no GA). New tracker. Refs #60 -->
-    <script type="module">
-      import { init } from "https://cdn.jsdelivr.net/npm/@plausible-analytics/tracker@0.4.5/+esm";
-      init({
-        domain: "estesadvisory.com",
-        outboundLinks: true,
-      });
-    </script>
+    <!-- Plausible: cookieless (no ad cookies). From plausible.io, not jsDelivr. Refs #76 -->
+    <script
+      defer
+      data-domain="estesadvisory.com"
+      src="https://plausible.io/js/script.outbound-links.js"
+    ></script>
   </head>
   <body class="blueprint-grid-fine">
     <header class="site-header">

@@ -13,10 +13,11 @@
     <link rel="icon" href="/favicon.ico" sizes="any" />
     <link rel="icon" href="/assets/ea-monogram.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="/css/styles.css" />
-    <script type="module">
-      import { init } from "https://cdn.jsdelivr.net/npm/@plausible-analytics/tracker@0.4.5/+esm";
-      init({ domain: "estesadvisory.com", outboundLinks: true });
-    </script>
+    <script
+      defer
+      data-domain="estesadvisory.com"
+      src="https://plausible.io/js/script.outbound-links.js"
+    ></script>
     <style>
       .privacy-doc {
         max-width: 42rem;
@@ -85,7 +86,7 @@
       <p class="label">Estes Advisory LLC</p>
       <h1>Privacy</h1>
       <p class="meta">
-        Effective 2026-08-10 · Plain language · Covers our websites, product surfaces, and
+        Effective 2026-08-23 · Plain language · Covers our websites, product surfaces, and
         developer integrations (including LinkedIn apps we register)
       </p>
 
@@ -140,10 +141,8 @@
         </li>
         <li>
           <strong>Sovereignty and respect.</strong> We care about data control for ourselves and for
-          clients (see Artifactum and our
-          <a href="https://github.com/estesadvisory/portfolio-ops/blob/main/docs/COMPANY_VALUES.md"
-            >company values</a
-          >). We do not sell personal information as a business model.
+          clients (see Artifactum and the company values on this page). We do not sell personal
+          information as a business model.
         </li>
         <li>
           <strong>Plain English over theater.</strong> If we change material practices, we update
@@ -160,7 +159,12 @@
         </li>
         <li>
           Aggregate analytics via Plausible (page path, referrer, device class, outbound link
-          clicks)—without cookies or advertising identifiers for that product.
+          clicks)—without cookies or advertising identifiers for that product. The tracker script
+          loads from plausible.io on this origin’s pages.
+        </li>
+        <li>
+          Web fonts (IBM Plex) are self-hosted on this CloudFront/S3 origin. We do not load Google
+          Fonts.
         </li>
       </ul>
       <p><strong>When you contact us or work with us</strong></p>
@@ -237,7 +241,35 @@
         will be reflected here; continue using our sites only if you accept the then-current notice.
       </p>
 
-      <h2>12. Contact</h2>
+      <h2>12. Company values</h2>
+      <p>
+        Short public version. Internal process docs stay private; we do not publish a GitHub
+        markdown file as the values surface.
+      </p>
+      <ul>
+        <li>
+          <strong>Radical transparency without recklessness.</strong> Say what we do and why — without
+          dumping secrets, client NDA content, or unsafe operational detail.
+        </li>
+        <li>
+          <strong>Privacy by default.</strong> Minimize collection. Prefer cookieless analytics.
+          Cookies only when a real feature requires them.
+        </li>
+        <li>
+          <strong>Data sovereignty.</strong> Organizations and people should control durable work
+          product — files, keys, process — not rent amnesia from chat vendors.
+        </li>
+        <li>
+          <strong>AI as partner and force multiplier.</strong> Use strong models to ship faster; keep
+          humans accountable for judgment, ethics, and risk.
+        </li>
+        <li>
+          <strong>Simple, useful, secure, mindful.</strong> Useful over performative; secure over
+          clever; easy for the next human or agent.
+        </li>
+      </ul>
+
+      <h2>13. Contact</h2>
       <p>
         Estes Advisory LLC ·
         <a href="https://estesadvisory.com/#contact">Contact</a>
@@ -245,12 +277,9 @@
 
       <p class="meta" style="margin-top: 2.5rem">
         Short homepage summary also lives at
-        <a href="/#privacy">estesadvisory.com/#privacy</a>. Company values:
-        <a href="https://github.com/estesadvisory/portfolio-ops/blob/main/docs/COMPANY_VALUES.md"
-          >COMPANY_VALUES.md</a
-        >
-        (public GitHub). This page is for clarity and organizational accountability—not a substitute
-        for counsel on your situation.
+        <a href="/#privacy">estesadvisory.com/#privacy</a>. Company values are on this page (section
+        12). This page is for clarity and organizational accountability—not a substitute for counsel
+        on your situation.
       </p>
     </main>
 
