@@ -29,6 +29,7 @@ Cross-repo standards: **[estesadvisory/portfolio-ops](https://github.com/estesad
 4. **Public brand:** careful with claims, partners, pricing; escalate legal/money/public brand to human.
 5. **No secrets** in the static tree; AWS via SSO profile / Actions secrets only.
 6. **Public brand blocklist** — [docs/PUBLIC_BRAND_GUARDRAILS.md](./docs/PUBLIC_BRAND_GUARDRAILS.md). Blocked entities (e.g. ScopeHawk / getscopehawk.com) must **not** appear on deployable site surfaces. Delist = full removal (not HTML comments / hidden CSS). Archive under `docs/archive/` is offline only. **Never restore a blocklisted customer or logo without explicit human instruction in the current task or a dedicated open issue.** Run `make brand-guard` before claiming site work is done.
+7. **Privacy chrome:** toast → on-page `#privacy` → `/privacy.html`. See https://github.com/estesadvisory/portfolio-ops/blob/main/docs/SITE_PRIVACY.md
 
 ## Useful links
 
