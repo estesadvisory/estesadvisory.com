@@ -70,8 +70,13 @@
 
   // ── Privacy toast (no storage; auto-dismiss; never traps focus) ───
   (function initPrivacyToast() {
-    // Skip pure redirect helper pages
+    // Skip pure redirect helper pages and the full policy page.
     if (!document.getElementById("main")) return;
+    if (/privacy\.html$/i.test(location.pathname)) return;
+
+    const privacyHref = document.getElementById("privacy")
+      ? "#privacy"
+      : "/privacy.html";
 
     const toast = document.createElement("div");
     toast.className = "privacy-toast";
@@ -79,7 +84,9 @@
     toast.setAttribute("aria-live", "polite");
     toast.setAttribute("aria-atomic", "true");
     toast.innerHTML =
-      '<p>Cookieless analytics (Plausible). No ad cookies. <a href="/privacy.html">Privacy</a></p>' +
+      '<p>Cookieless analytics (Plausible). No ad cookies. <a href="' +
+      privacyHref +
+      '">Privacy</a></p>' +
       '<button type="button" class="privacy-toast-dismiss" aria-label="Dismiss">' +
       "×</button>";
 
