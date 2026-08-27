@@ -1112,6 +1112,14 @@ body.nav-open {
   max-height: 2.25rem;
 }
 
+.entity-logo-word {
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  letter-spacing: 0.04em;
+  color: var(--ink);
+  font-weight: 560;
+}
+
 /* White / light logos (e.g. Kloudgen wordmark) */
 .entity-logo-dark {
   background: #0f172a;
