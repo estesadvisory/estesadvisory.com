@@ -200,6 +200,8 @@ code { font-family: var(--mono); font-size: 0.85em; }
 }
 
 .ea-build-id { color: var(--muted); }
+.ea-data-freshness { color: var(--text); font-weight: 600; }
+.subtitle a { color: var(--accent); }
 
 .error-box {
   border: 1px solid rgba(240, 113, 120, 0.4);
