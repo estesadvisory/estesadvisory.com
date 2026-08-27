@@ -18,6 +18,26 @@
     repoTableBody: document.querySelector("#repo-table tbody"),
   };
 
+  function newestFirst(weeks) {
+    return weeks.slice().sort(function (a, b) {
+      return String(b.id || "").localeCompare(String(a.id || ""));
+    });
+  }
+
+  function hoursSince(iso) {
+    var then = Date.parse(iso);
+    if (!iso || isNaN(then)) return null;
+    return Math.max(0, (Date.now() - then) / 36e5);
+  }
+
+  function formatHoursSince(h) {
+    if (h == null) return "";
+    if (h < 1) return Math.round(h * 60) + "m since collect";
+    if (h < 48) return (Math.round(h * 10) / 10) + "h since collect";
+    return Math.round(h / 24) + "d since collect";
+  }
+
+
   /** @type {Record<string, import('chart.js').Chart>} */
   const charts = {};
 
@@ -250,8 +270,11 @@
       renderCharts(agg);
       if (agg.generatedAt) {
         els.generatedAt.setAttribute("data-generated-utc", agg.generatedAt);
-        els.generatedAt.textContent = "data " + agg.generatedAt;
-        els.generatedAt.title = "Scoreboard data generated (UTC): " + agg.generatedAt;
+        var age = formatHoursSince(hoursSince(agg.generatedAt));
+        els.generatedAt.textContent =
+          "scoreboard data " + agg.generatedAt + (age ? " · " + age : "");
+        els.generatedAt.title =
+          "Scoreboard JSON generated_at (UTC). Living issue board is OPS_BOARD.md, not this chart.";
         document.dispatchEvent(new Event("ea-data-freshness"));
       } else {
         els.generatedAt.textContent = "";
@@ -274,12 +297,13 @@
       const res = await fetch(MANIFEST_URL, { credentials: "same-origin", cache: "no-store" });
       if (!res.ok) throw new Error("manifest HTTP " + res.status);
       const manifest = await res.json();
-      const weeks = manifest.weeks || [];
+      const weeks = newestFirst(manifest.weeks || []);
       if (!weeks.length) throw new Error("manifest has no weeks");
 
       els.weekSelect.innerHTML = weeks
         .map((w) => `<option value="${escapeHtml(w.id)}">${escapeHtml(w.label || w.id)}</option>`)
         .join("");
+      els.weekSelect.value = weeks[0].id;
 
       els.weekSelect.addEventListener("change", () => {
         const w = weeks.find((x) => x.id === els.weekSelect.value);

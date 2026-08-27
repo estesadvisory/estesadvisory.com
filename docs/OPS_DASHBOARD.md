@@ -27,6 +27,19 @@ Content under `ops/` is **excluded** from S3 sync until:
 
 Without the gate, `*.html` would publish `ops/index.html` publicly.
 
+## Two boards (do not mix)
+
+| Surface | What it is | Freshness |
+|---------|------------|-----------|
+| [OPS_BOARD.md](https://github.com/estesadvisory/portfolio-ops/blob/main/docs/OPS_BOARD.md) | **Living** open-issue board | GitHub Actions **Ops refresh** `*/30` |
+| This `/ops/` page | **Weekly scoreboard snapshot** (charts + narrative) | Daily **12:00 UTC** collect → Publish ops dashboard |
+
+The page title/footer now say **scoreboard data {generated_at}** plus hours-since-collect. A 12h-old ISO week is not last month. Default week selector is the **latest** manifest week (newest `YYYY-Www` first).
+
+After a heavy delivery day, **do not** add an hourly cron (Actions minutes). Dispatch **Portfolio scoreboard** (`workflow_dispatch`) on `estesadvisory/portfolio-ops`, or from that repo `make scoreboard` then the existing publish path. Layer C AI narrative stays parked.
+
+Refs: [portfolio-ops#130](https://github.com/estesadvisory/portfolio-ops/issues/130)
+
 ## Refresh data
 
 ```bash
