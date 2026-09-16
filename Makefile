@@ -63,6 +63,7 @@ SITE_SYNC_EXCLUDES := \
 	--include "css/*" \
 	--include "js/*" \
 	--include "assets/*" \
+	--include "assets/*/*" \
 	--include "robots.txt" \
 	--include "sitemap.xml" \
 	--include "favicon.ico" \
