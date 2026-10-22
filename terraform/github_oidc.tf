@@ -39,9 +39,16 @@ data "aws_iam_policy_document" "gha_assume" {
     condition {
       test     = "StringLike"
       variable = "token.actions.githubusercontent.com:sub"
+      # Both subject formats: GitHub flipped this repo to the IMMUTABLE
+      # format (owner/repo numeric IDs) when it was transferred into the
+      # estesadvisory org in Oct 2026, which broke deploys (run #44,
+      # AccessDenied on AssumeRoleWithWebIdentity; see issue #97).
+      # IDs: owner estesadvisory = 340781223, repo estesadvisory.com = 1248416579.
       values = [
         "repo:${local.github_repo}:ref:refs/heads/main",
         "repo:${local.github_repo}:environment:production",
+        "repo:estesadvisory@340781223/estesadvisory.com@1248416579:ref:refs/heads/main",
+        "repo:estesadvisory@340781223/estesadvisory.com@1248416579:environment:production",
       ]
     }
   }
