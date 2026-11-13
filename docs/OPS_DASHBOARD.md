@@ -86,3 +86,29 @@ python3 -m http.server 8765
 - **Chart.js** (CDN) for commits, categories, PRs
 - **marked** (CDN) for Layer C narrative markdown
 - Manifest: `ops/data/manifest.json` lists available weeks
+
+## Fleet projection (artifactum#807, slice 2)
+
+`make ops-data` also invokes portfolio-ops `scripts/fleet_snapshot.py` to write
+`ops/data/fleet-view.json`. Set `FLEET_VIEW_ROOT` to an Artifactum checkout
+containing slice 1 (PR #975), and `FLEET_STATUS_FILE` to the collected
+`fleet-status.json` to display. The adapter invokes shared `project_fleet` and
+exports only `meta`, `usage`, and `seats`; it never collects evidence or logs in.
+Missing/invalid evidence is projected as unavailable, never fabricated zero usage.
+Missing shared code fails the sync rather than silently reimplementing it.
+
+Production uses the existing portfolio-ops data publisher, which pins the shared
+core and stages the same JSON. Its default evidence input is
+`portfolio-ops/data/fleet-status.json`; without supplied evidence the published
+view honestly remains unavailable. This change does not set up evidence
+collection or commit machine-local fleet state. Usage providers retain the shared
+order Codex, Wonder / Muse, Grok, Hermes, Ember and independent provenance,
+availability, capture time, freshness, limits, resets and errors. Seat activity
+comes directly from the shared projection. All labels describe a snapshot, not
+live liveness. Existing scoreboard payloads remain unchanged.
+
+Rollout: merge portfolio-ops generator/publisher first, then site renderer.
+Old page + new snapshot ignores the additive file; new page + old publisher
+shows unavailable on a missing file; both new versions render the projection.
+Reverting either PR is safe. Auth and publishing gates remain unchanged.
+Neither PR merges or deploys as part of the pickup job.
