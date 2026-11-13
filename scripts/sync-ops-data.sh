@@ -83,4 +83,6 @@ for w in weeks:
     print(f"  - {w['id']}: {w['json']}" + (f" + {w['md']}" if w.get("md") else ""))
 PY
 
+python3 "${PORTFOLIO_OPS_ROOT}/scripts/fleet_snapshot.py" "${OPS_DATA}/fleet-view.json"
+
 echo "Ops data synced from ${PORTFOLIO_OPS_ROOT}"
