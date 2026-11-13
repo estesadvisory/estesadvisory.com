@@ -11,6 +11,7 @@
   <script src="https://cdn.jsdelivr.net/npm/marked@15.0.6/marked.min.js" defer></script>
   <script src="js/build-id.js" defer></script>
   <script src="js/dashboard.js" defer></script>
+  <script src="js/fleet.js" defer></script>
 </head>
 <body>
   <div class="app">
@@ -36,6 +37,14 @@
     </header>
 
     <main>
+      <section class="card" aria-label="Fleet snapshot">
+        <h2>Fleet usage and seat activity</h2>
+        <p id="fleet-freshness" class="muted">Loading fleet snapshot…</p>
+        <div id="fleet-usage"></div>
+        <h3>Seat activity</h3>
+        <div id="fleet-seats"></div>
+      </section>
+
       <section class="kpis" id="kpis" aria-label="Key metrics"></section>
 
       <section class="grid-2">
